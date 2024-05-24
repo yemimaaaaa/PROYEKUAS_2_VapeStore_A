@@ -4,9 +4,7 @@ const {
   transaksi, 
   users, 
   laporan,
-  produk,
-  invoices,
-  revenue} = require('../app/lib/placeholder-data.js');
+  produk} = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
 async function seedUsers(client) {
@@ -206,7 +204,7 @@ async function seedRevenue(client) {
       ),
     );
 
-    console.log(`Seeded ${insertedRevenue.length} laporan`);
+    console.log(`Seeded ${insertedRevenue.length} revenue`);
 
     return {
       createTable,

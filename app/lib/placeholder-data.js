@@ -296,7 +296,7 @@ const invoices = [
   },
 ];
 
-const revenue = [
+const laporan = [
 {
    kode_laporan: 'AB900001',
    invoices_id: customers[0].id,
@@ -335,7 +335,7 @@ const revenue = [
 module.exports = {
   users,
   customers,
-  invoices,
-  revenue,
+  transaksi,
+  laporan,
   produk
 };
