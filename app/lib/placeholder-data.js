@@ -253,7 +253,7 @@ const produk = [
   },
 ];
 
-const transaksi = [
+const invoices = [
 {
     customer_id: customers[0].id,
     total_harga: 125000,
@@ -296,10 +296,10 @@ const transaksi = [
   },
 ];
 
-const laporan = [
+const revenue = [
 {
    kode_laporan: 'AB900001',
-   transaksi_id: customers[0].id,
+   invoices_id: customers[0].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
    date:'2024-05-20', 
@@ -307,7 +307,7 @@ const laporan = [
 },
 {
    kode_laporan: 'AB900002',
-   transaksi_id: customers[1].id,
+   invoices_id: customers[1].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
    date:'2024-05-20', 
@@ -315,7 +315,7 @@ const laporan = [
 },
 {
    kode_laporan: 'AB900003',
-   transaksi_id: customers[3].id,
+   invoices_id: customers[3].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
    date:'2024-05-20',
@@ -323,7 +323,7 @@ const laporan = [
 },
 {
    kode_laporan: 'AB900004',
-   transaksi_id: customers[2].id,
+   invoices_id: customers[2].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
    status_transaksi:'pending | paid',
@@ -335,7 +335,7 @@ const laporan = [
 module.exports = {
   users,
   customers,
-  transaksi,
-  laporan,
+  invoices,
+  revenue,
   produk
 };
