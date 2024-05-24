@@ -104,7 +104,9 @@ export type ProdukForm = {
   date: string;
   image_url: string;
 }
+
 export type InvoicesForm = {
+
   customer_id: string;
   total_harga: number;
   status: string;
@@ -112,6 +114,7 @@ export type InvoicesForm = {
   date: string;
   image_url: string;
 }
+
 
 export type RevenueForm = {
   kode_revenue: string;
@@ -121,3 +124,4 @@ export type RevenueForm = {
   date: string;
   image_url: string;
 }
+//o
