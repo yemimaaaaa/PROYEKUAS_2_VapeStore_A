@@ -3,6 +3,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  //jbfksbvjbsjvbbgsrjwjbrwnbrbwrnwrnrnrjnrjwrwjrwjwwrwhwrwhwrh
   return (
     <html lang="en">
       <body>{children}</body>
