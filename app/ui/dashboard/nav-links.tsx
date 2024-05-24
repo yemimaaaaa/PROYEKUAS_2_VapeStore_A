@@ -14,7 +14,7 @@ const links = [
   },
   {
     name: 'Customer',
-    href: '/dashboard/customers',
+    href: '/dashboard/customer',
   },
   {
     name: 'Transaksi',
@@ -30,8 +30,6 @@ const links = [
   }
 ];
  
-
-
 export default function NavLinks() {
   const pathname = usePathname();
   return (
