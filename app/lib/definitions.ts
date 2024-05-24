@@ -114,8 +114,8 @@ export type InvoicesForm = {
 }
 
 export type RevenueForm = {
-  kode_laporan: string;
-  transaksi_id: string;
+  kode_revenue: string;
+  invoices_id: string;
   jenis_laporan: string;
   metode_pembayaran: string;
   date: string;

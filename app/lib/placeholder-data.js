@@ -296,9 +296,9 @@ const invoices = [
   },
 ];
 
-const laporan = [
+const revenue = [
 {
-   kode_laporan: 'AB900001',
+   kode_revenue: 'AB900001',
    invoices_id: customers[0].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
@@ -306,7 +306,7 @@ const laporan = [
    image_url: '/customers/delba-de-oliveira.png',
 },
 {
-   kode_laporan: 'AB900002',
+   kode_revenue: 'AB900002',
    invoices_id: customers[1].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
@@ -314,7 +314,7 @@ const laporan = [
    image_url: '/customers/delba-de-oliveira.png',
 },
 {
-   kode_laporan: 'AB900003',
+   kode_revenue: 'AB900003',
    invoices_id: customers[3].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
@@ -322,11 +322,10 @@ const laporan = [
    image_url: '/customers/delba-de-oliveira.png',
 },
 {
-   kode_laporan: 'AB900004',
+   kode_revenue: 'AB900004',
    invoices_id: customers[2].id,
    jenis_laporan:'penjualan | pembelian | pengembalian',
    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
-   status_transaksi:'pending | paid',
    date:'2024-05-20',
    image_url: '/customers/delba-de-oliveira.png',
 }
@@ -335,7 +334,7 @@ const laporan = [
 module.exports = {
   users,
   customers,
-  transaksi,
-  laporan,
+  invoices,
+  revenue,
   produk
 };

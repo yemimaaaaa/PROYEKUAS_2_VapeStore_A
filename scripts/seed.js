@@ -1,9 +1,9 @@
 const { db } = require('@vercel/postgres');
 const {
   customers, 
-  transaksi, 
+  invoices, 
   users, 
-  laporan,
+  revenue,
   produk} = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
@@ -228,9 +228,9 @@ async function main() {
   await client.end();
 }
 
-main().catch((err) => {
+main().catch((error) => {
   console.error(
     'An error occurred while attempting to seed the database:',
-    err,
+    error,
   );
 });
