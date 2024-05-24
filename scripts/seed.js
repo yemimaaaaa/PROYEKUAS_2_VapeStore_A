@@ -4,7 +4,9 @@ const {
   transaksi, 
   users, 
   laporan,
-  produk} = require('../app/lib/placeholder-data.js');
+  produk,
+  invoices,
+  revenue} = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
 async function seedUsers(client) {
@@ -132,13 +134,13 @@ async function seedProduk(client) {
   }
 }
 
-async function seedTransaksi(client) {
+async function seedInvoices(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
     // Create the "transaksi" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS transaksi (
+      CREATE TABLE IF NOT EXISTS invoices (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         customer_id UUID NOT NULL,
         total_harga INT NOT NULL,
@@ -149,41 +151,41 @@ async function seedTransaksi(client) {
       );
     `;
 
-    console.log(`Created "transaksi" table`);
+    console.log(`Created "invoices" table`);
 
     // Insert data into the "transaksi" table
-    const insertedTransaksi = await Promise.all(
-      transaksi.map(
-        (transaksi) => client.sql`
-        INSERT INTO transaksi (customer_id, total_harga, status, kuantitas, date, image_url)
-        VALUES (${transaksi.customer_id}, ${transaksi.total_harga}, ${transaksi.status}, ${transaksi.kuantitas}, ${transaksi.date}, ${transaksi.image_url || 'default_image_url'})
+    const insertedInvoices = await Promise.all(
+      invoices.map(
+        (invoices) => client.sql`
+        INSERT INTO invoices (customer_id, total_harga, status, kuantitas, date, image_url)
+        VALUES (${invoices.customer_id}, ${invoices.total_harga}, ${invoices.status}, ${invoices.kuantitas}, ${invoices.date}, ${invoices.image_url || 'default_image_url'})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
     );
 
-    console.log(`Seeded ${insertedTransaksi.length} transaksi`);
+    console.log(`Seeded ${insertedInvoices.length} invoices`);
 
     return {
       createTable,
-      transaksi: insertedTransaksi,
+      invoices: insertedInvoices,
     };
   } catch (error) {
-    console.error('Error seeding transaksi:', error);
+    console.error('Error seeding invoices:', error);
     throw error;
   }
 }
 
 
-async function seedLaporan(client) {
+async function seedRevenue(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
     // Create the "laporan" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS laporan (
+      CREATE TABLE IF NOT EXISTS revenue (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        transaksi_id UUID NOT NULL,
+        invoices_id UUID NOT NULL,
         jenis_laporan VARCHAR(255) NOT NULL,
         metode_pembayaran VARCHAR(255) NOT NULL,
         date DATE NOT NULL,
@@ -191,27 +193,27 @@ async function seedLaporan(client) {
       );
     `;
 
-    console.log(`Created "laporan" table`);
+    console.log(`Created "revenue" table`);
 
     // Insert data into the "laporan" table
-    const insertedLaporan = await Promise.all(
-      laporan.map(
-        (laporan) => client.sql`
-        INSERT INTO laporan (transaksi_id, jenis_laporan, metode_pembayaran, date, image_url)
-        VALUES (${laporan.transaksi_id}, ${laporan.jenis_laporan}, ${laporan.metode_pembayaran}, ${laporan.date}, ${laporan.image_url})
+    const insertedRevenue = await Promise.all(
+      revenue.map(
+        (revenue) => client.sql`
+        INSERT INTO revenue (invoices_id, jenis_laporan, metode_pembayaran, date, image_url)
+        VALUES (${revenue.invoices_id}, ${revenue.jenis_laporan}, ${revenue.metode_pembayaran}, ${revenue.date}, ${revenue.image_url})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
     );
 
-    console.log(`Seeded ${insertedLaporan.length} laporan`);
+    console.log(`Seeded ${insertedRevenue.length} laporan`);
 
     return {
       createTable,
-      laporan: insertedLaporan,
+      revenue: insertedRevenue,
     };
   } catch (error) {
-    console.error('Error seeding laporan:', error);
+    console.error('Error seeding revenue:', error);
     throw error;
   }
 }
@@ -222,8 +224,8 @@ async function main() {
   await seedUsers(client);
   await seedCustomers(client);
   await seedProduk(client);
-  await seedTransaksi(client);
-  await seedLaporan(client);
+  await seedInvoices(client);
+  await seedRevenue(client);
 
   await client.end();
 }

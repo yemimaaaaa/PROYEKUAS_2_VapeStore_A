@@ -104,7 +104,7 @@ export type ProdukForm = {
   date: string;
   image_url: string;
 }
-export type TransaksiForm = {
+export type InvoicesForm = {
   customer_id: string;
   total_harga: number;
   status: string;
@@ -113,7 +113,7 @@ export type TransaksiForm = {
   image_url: string;
 }
 
-export type LaporanForm = {
+export type RevenueForm = {
   kode_laporan: string;
   transaksi_id: string;
   jenis_laporan: string;
