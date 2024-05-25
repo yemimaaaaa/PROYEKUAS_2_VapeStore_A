@@ -23,6 +23,16 @@ const FormSchema2 = z.object({
   image_url: z.string(),
 });
 
+const FormProduk = z.object({
+  id_produk: z.string(),
+  nama: z.string(),
+  kategori: z.string(),
+  harga: z.string(),
+  stok: z.string(),
+  date: z.string(),
+  image_url: z.string(),
+});
+
 export type State = {
   errors?: {
     customerId?: string[];
@@ -38,7 +48,8 @@ const CreateReservations = FormSchema.omit({ id: true, date: true });
 const UpdateReservations = FormSchema.omit({ id: true, date: true });
 const CreateCustomers = FormSchema2.omit({ id: true });
 const UpdateCustomers = FormSchema2.omit({ id: true });
-
+const CreateProduk = FormProduk.omit({ id: true, date: true });
+const UpdateProduk = FormProduk.omit({ id: true, date: true });
 
 export async function createReservations(prevState: State, formData: FormData) {
   const validatedFields = CreateReservations.safeParse({
@@ -261,6 +272,39 @@ export async function deleteCustomers(id: string) {
     return { message: 'Database Error: Failed to Delete Customers.' };
   }
 }
+
+// export async function createProduk(formData: FormData) {
+//   const validatedFields = CreateInvoice.parse({
+//     customerId: formData.get('customerId'),
+//     amount: formData.get('amount'),
+//     status: formData.get('status'),
+//   });
+
+//   if (!validatedFields.success) {
+//     return {
+//       errors: validatedFields.error.flatten().fieldErrors,
+//       message: 'Missing Fields. Failed to Create Reservations.',
+//     };
+//   }
+
+//   const { customerId, amount, status } = validatedFields.data;
+//   const amountInCents = amount * 100;
+//   const date = new Date().toISOString().split('T')[0];
+
+//   try {
+//     await sql`
+//         INSERT INTO produk (customer_id, amount, status, date)
+//         VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+//       `;
+//   } catch (error) {
+//     return {
+//       message: 'Database Error: Failed to Create Invoice.',
+//     };
+//   }
+
+//   revalidatePath('/dashboard/produk');
+//   redirect('/dashboard/produk');
+// }
 
 // export async function authenticate(
 //   prevState: string | undefined,

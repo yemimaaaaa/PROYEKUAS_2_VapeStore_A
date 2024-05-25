@@ -65,6 +65,16 @@ export type CustomersTableType = {
   total_paid: number;
 };
 
+export type ProdukTable = {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  date: string;
+  amount: number;
+  status: 'pending' | 'paid';
+};
+
 export type FormattedCustomersTable = {
   id: string;
   name: string;
