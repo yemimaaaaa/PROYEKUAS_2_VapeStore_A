@@ -17,16 +17,16 @@ const links = [
     href: '/dashboard/customer',
   },
   {
-    name: 'Transaksi',
-    href: '/dashboard/transaksi',
+    name: 'Invoices',
+    href: '/dashboard/invoices',
   },
   {
     name: 'Produk',
     href: '/dashboard/produk',
   },
   {
-    name: 'Laporan',
-    href: '/dashboard/laporan',
+    name: 'Revenue',
+    href: '/dashboard/revenue',
   }
 ];
  
