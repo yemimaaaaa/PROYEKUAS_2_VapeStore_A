@@ -27,7 +27,8 @@ const links = [
   {
     name: 'Revenue',
     href: '/dashboard/revenue',
-  }
+  },
+
 ];
  
 export default function NavLinks() {
@@ -39,7 +40,7 @@ export default function NavLinks() {
           key={link.name}
           href={link.href}
           className={clsx(
-            'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-fuchsia-300 hover:text-white-600 md:flex-none md:justify-start md:p-2 md:px-3',
+            'flex flex-col h-[48px] grow items-left justify-left gap-2 w-full bg-gray-50 p-3 text-sm font-medium hover:bg-fuchsia-300 hover:text-white-600 md:flex-none md:justify-center md:p-2 md:px-3',
             {
               'bg-fuchsia-300 text-white-100': pathname === link.href,
             },

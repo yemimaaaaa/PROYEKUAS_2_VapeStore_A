@@ -12,7 +12,6 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
-import { Nosifer } from 'next/font/google';
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
