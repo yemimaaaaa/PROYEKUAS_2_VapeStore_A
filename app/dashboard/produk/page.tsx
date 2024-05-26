@@ -1,5 +1,3 @@
-import { Metadata } from 'next';
- 
-export const metadata: Metadata = {
-    title: 'Produk',
-  };
+export default function Page() {
+  return <p>Produk Page</p>;
+}

@@ -165,20 +165,7 @@ const users = [
 //   },
 // ];
 
-// const revenue = [
-//   { month: 'Jan', revenue: 2000 },
-//   { month: 'Feb', revenue: 1800 },
-//   { month: 'Mar', revenue: 2200 },
-//   { month: 'Apr', revenue: 2500 },
-//   { month: 'May', revenue: 2300 },
-//   { month: 'Jun', revenue: 3200 },
-//   { month: 'Jul', revenue: 3500 },
-//   { month: 'Aug', revenue: 3700 },
-//   { month: 'Sep', revenue: 2500 },
-//   { month: 'Oct', revenue: 2800 },
-//   { month: 'Nov', revenue: 3000 },
-//   { month: 'Dec', revenue: 4800 },
-// ];
+
 const customers = [
   {
     id: '3958dc9e-737f-4377-85e9-fec4b6a6442a',
@@ -186,7 +173,7 @@ const customers = [
     no_telp: '081234567898',
     pesanan: 'Device | E-liquid |Aksesoris',
     date: '2024-05-20',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_url: '/customers/lando noWIN.png',
   },
 {
     id: '3958dc9e-738f-4377-85e9-fec4b6a6442a',
@@ -194,7 +181,7 @@ const customers = [
     no_telp: '085298641955',
     pesanan: 'Device | E-liquid |Aksesoris',
     date: '2024-05-20',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_url: '/customers/wbb2.png',
   },
   {
     id: '3958dc9e-757f-4377-85e9-fec4b6a6442a',
@@ -202,7 +189,7 @@ const customers = [
     no_telp: '089816842185',
     pesanan: 'Device | E-liquid |Aksesoris',
     date: '2024-05-20',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_url: '/customers/CUST 2.png',
   },
   {
     id: '3958dc9e-740f-4377-85e9-fec4b6a6442a',
@@ -210,7 +197,7 @@ const customers = [
     no_telp: '085622489161',
     pesanan: 'Device | E-liquid |Aksesoris',
     date: '2024-05-20',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_url: '/customers/MAX LOSE.png',
   },
 ];
 
@@ -297,39 +284,54 @@ const invoices = [
 ];
 
 const revenue = [
-{
-   kode_revenue: 'AB900001',
-   invoices_id: customers[0].id,
-   jenis_laporan:'penjualan | pembelian | pengembalian',
-   metode_pembayaran:'tunai | kartu kredit | transfer | qris',
-   date:'2024-05-20', 
-   image_url: '/customers/delba-de-oliveira.png',
-},
-{
-   kode_revenue: 'AB900002',
-   invoices_id: customers[1].id,
-   jenis_laporan:'penjualan | pembelian | pengembalian',
-   metode_pembayaran:'tunai | kartu kredit | transfer | qris',
-   date:'2024-05-20', 
-   image_url: '/customers/delba-de-oliveira.png',
-},
-{
-   kode_revenue: 'AB900003',
-   invoices_id: customers[3].id,
-   jenis_laporan:'penjualan | pembelian | pengembalian',
-   metode_pembayaran:'tunai | kartu kredit | transfer | qris',
-   date:'2024-05-20',
-   image_url: '/customers/delba-de-oliveira.png',
-},
-{
-   kode_revenue: 'AB900004',
-   invoices_id: customers[2].id,
-   jenis_laporan:'penjualan | pembelian | pengembalian',
-   metode_pembayaran:'tunai | kartu kredit | transfer | qris',
-   date:'2024-05-20',
-   image_url: '/customers/delba-de-oliveira.png',
-}
+  { month: 'Jan', revenue: 2000 },
+  { month: 'Feb', revenue: 1400 },
+  { month: 'Mar', revenue: 4200 },
+  { month: 'Apr', revenue: 3500 },
+  { month: 'May', revenue: 2300 },
+  { month: 'Jun', revenue: 2000 },
+  { month: 'Jul', revenue: 4500 },
+  { month: 'Aug', revenue: 700 },
+  { month: 'Sep', revenue: 1500 },
+  { month: 'Oct', revenue: 4800 },
+  { month: 'Nov', revenue: 5000 },
+  { month: 'Dec', revenue: 4000 },
 ];
+
+// const revenue = [
+// {
+//    kode_revenue: 'AB900001',
+//    invoices_id: customers[0].id,
+//    jenis_laporan:'penjualan | pembelian | pengembalian',
+//    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
+//    date:'2024-05-20', 
+//    image_url: '/customers/delba-de-oliveira.png',
+// },
+// {
+//    kode_revenue: 'AB900002',
+//    invoices_id: customers[1].id,
+//    jenis_laporan:'penjualan | pembelian | pengembalian',
+//    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
+//    date:'2024-05-20', 
+//    image_url: '/customers/delba-de-oliveira.png',
+// },
+// {
+//    kode_revenue: 'AB900003',
+//    invoices_id: customers[3].id,
+//    jenis_laporan:'penjualan | pembelian | pengembalian',
+//    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
+//    date:'2024-05-20',
+//    image_url: '/customers/delba-de-oliveira.png',
+// },
+// {
+//    kode_revenue: 'AB900004',
+//    invoices_id: customers[2].id,
+//    jenis_laporan:'penjualan | pembelian | pengembalian',
+//    metode_pembayaran:'tunai | kartu kredit | transfer | qris',
+//    date:'2024-05-20',
+//    image_url: '/customers/delba-de-oliveira.png',
+// }
+// ];
 
 module.exports = {
   users,

@@ -16,35 +16,76 @@ export type User = {
   password: string;
 };
 
-export type Customer = {
+export type Customers = {
   id: string;
-  name: string;
-  email: string;
+  nama: string;
+  no_telp: number;
+  pesanan: string;
+  date: string;
   image_url: string;
-};
+}
 
-export type Invoice = {
+export type Produk = {
+  id_produk: string;
+  nama: string;
+  kategori: string;
+  harga: number;
+  stok: number;
+  date: string;
+  image_url: string;
+}
+
+export type Invoices = {
+
+  customer_id: string;
+  total_harga: number;
+  status: string;
+  kuantitas: number;
+  date: string;
+  image_url: string;
+}
+
+export type LatestInvoice = {
+
   id: string;
   customer_id: string;
-  amount: number;
-  date: string;
-  // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-  status: 'pending' | 'paid';
-};
+  nama: string;
+  total_harga: number;
+  // status: string;
+  // kuantitas: number;
+  // date: string;
+  image_url: string;
+}
+
+// export type Customer = {
+//   id: string;
+//   name: string;
+//   email: string;
+//   image_url: string;
+// };
+
+// export type Invoice = {
+//   id: string;
+//   customer_id: string;
+//   amount: number;
+//   date: string;
+//   // In TypeScript, this is called a string union type.
+//   // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
+//   status: 'pending' | 'paid';
+// };
 
 export type Revenue = {
   month: string;
   revenue: number;
 };
 
-export type LatestInvoice = {
-  id: string;
-  name: string;
-  image_url: string;
-  email: string;
-  amount: string;
-};
+// export type LatestInvoice = {
+//   id: string;
+//   name: string;
+//   image_url: string;
+//   email: string;
+//   amount: string;
+// };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
@@ -93,42 +134,42 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
-export type CustomersForm = {
-  id: string;
-  nama: string;
-  no_telp: number;
-  pesanan: string;
-  date: string;
-  image_url: string;
-}
+// export type CustomersForm = {
+//   id: string;
+//   nama: string;
+//   no_telp: number;
+//   pesanan: string;
+//   date: string;
+//   image_url: string;
+// }
 
-export type ProdukForm = {
-  id_produk: string;
-  nama: string;
-  kategori: string;
-  harga: number;
-  stok: number;
-  date: string;
-  image_url: string;
-}
+// export type ProdukForm = {
+//   id_produk: string;
+//   nama: string;
+//   kategori: string;
+//   harga: number;
+//   stok: number;
+//   date: string;
+//   image_url: string;
+// }
 
-export type InvoicesForm = {
+// export type InvoicesForm = {
 
-  customer_id: string;
-  total_harga: number;
-  status: string;
-  kuantitas: number;
-  date: string;
-  image_url: string;
-}
+//   customer_id: string;
+//   total_harga: number;
+//   status: string;
+//   kuantitas: number;
+//   date: string;
+//   image_url: string;
+// }
 
 
-export type RevenueForm = {
-  kode_revenue: string;
-  invoices_id: string;
-  jenis_laporan: string;
-  metode_pembayaran: string;
-  date: string;
-  image_url: string;
-}
+// export type RevenueForm = {
+//   kode_revenue: string;
+//   invoices_id: string;
+//   jenis_laporan: string;
+//   metode_pembayaran: string;
+//   date: string;
+//   image_url: string;
+// }
 //o
