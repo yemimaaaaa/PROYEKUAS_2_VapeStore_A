@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-//import { UpdateInvoice } from '../ui/invoices/buttons';
 // import { signIn } from '@/auth';
 // import { AuthError } from 'next-auth';
 
@@ -27,8 +26,8 @@ const FormProduk = z.object({
   id_produk: z.string(),
   nama: z.string(),
   kategori: z.string(),
-  harga: z.string(),
-  stok: z.string(),
+  harga: z.coerce.number(),
+  stok: z.coerce.number(),
   date: z.string(),
   image_url: z.string(),
 });
@@ -273,38 +272,73 @@ export async function deleteCustomers(id: string) {
   }
 }
 
-// export async function createProduk(formData: FormData) {
-//   const validatedFields = CreateInvoice.parse({
-//     customerId: formData.get('customerId'),
-//     amount: formData.get('amount'),
-//     status: formData.get('status'),
-//   });
+export async function createProduk(formData: FormData) {
+  const img = formData.get('image');
+  console.log(img);
 
-//   if (!validatedFields.success) {
-//     return {
-//       errors: validatedFields.error.flatten().fieldErrors,
-//       message: 'Missing Fields. Failed to Create Reservations.',
-//     };
-//   }
+  let fileName = '';
+  if (img instanceof File) {
+    fileName = '/customers/' + img.name;
+    console.log('Image uploaded:', fileName);
+  };
 
-//   const { customerId, amount, status } = validatedFields.data;
-//   const amountInCents = amount * 100;
-//   const date = new Date().toISOString().split('T')[0];
+  const {nama, kategori , harga , stok , image_url} = CreateProduk.parse({
+    nama: formData.get('nama'),
+    kategori: formData.get('kategori'),
+    stok: formData.get('stok'),
+    image_url: fileName,
+  });
+  const date = new Date().toISOString().split('T')[0];
 
-//   try {
-//     await sql`
-//         INSERT INTO produk (customer_id, amount, status, date)
-//         VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-//       `;
-//   } catch (error) {
-//     return {
-//       message: 'Database Error: Failed to Create Invoice.',
-//     };
-//   }
+  try {
+    await sql`
+        INSERT INTO produk (nama, kategori, harga, stok, image_url, date)
+        VALUES (${nama}, ${kategori}, ${harga}, ${stok}, ${image_url}, ${date})
+      `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Produk.',
+    };
+  }
 
-//   revalidatePath('/dashboard/produk');
-//   redirect('/dashboard/produk');
-// }
+  revalidatePath('/dashboard/produk');
+  redirect('/dashboard/produk');
+}
+
+export async function updateProduk(id: string, formData: FormData) {
+  const img = formData.get('image');
+  console.log(img);
+
+  let fileName = '';
+  if (img instanceof File) {
+    fileName = '/customers/' + img.name;
+    console.log('Image uploaded:', fileName);
+  };
+  const {nama, kategori , harga , stok , image_url} = UpdateProduk.parse({
+    nama: formData.get('nama'),
+    kategori: formData.get('kategori'),
+    stok: formData.get('stok'),
+    image_url: fileName,
+  });
+
+
+  const updateFields = { nama, kategori, harga, stok, image_url };
+  if (fileName) {
+    updateFields.image_url = fileName;
+  }
+  try {
+    await sql`
+        UPDATE customers
+        SET nama = ${nama}, kategori = ${kategori}, harga = ${harga}, stok = ${stok}, image_url = ${image_url}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Produk.' };
+  }
+
+  revalidatePath('/dashboard/produk');
+  redirect('/dashboard/produk');
+}
 
 // export async function authenticate(
 //   prevState: string | undefined,

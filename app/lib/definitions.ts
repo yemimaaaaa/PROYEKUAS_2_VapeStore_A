@@ -65,14 +65,14 @@ export type CustomersTableType = {
   total_paid: number;
 };
 
-export type ProdukTable = {
+export type ProdukTables = {
   id: string;
-  name: string;
-  email: string;
-  image_url: string;
+  nama: string;
+  kategori: string;
+  harga: string;
+  stok: string;
   date: string;
-  amount: number;
-  status: 'pending' | 'paid';
+  image_url: string;
 };
 
 export type FormattedCustomersTable = {
@@ -96,6 +96,7 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
 export type CustomersForm = {
   id: string;
   nama: string;

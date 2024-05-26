@@ -8,7 +8,7 @@ import {
   User,
   Revenue,
   ProdukForm,
-  ProdukTable
+  ProdukTables
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -241,37 +241,73 @@ export async function getUser(email: string) {
 }
 
 //produk
-
-export async function fetchFilteredProduk(
-  query: string,
-  currentPage: number,
+export async function fetchFilteredProduk(query: string, currentPage: number,
 ) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  noStore();
-
+  noStore(); // Disable caching for fresh data on each request
   try {
-    const produk = await sql<ProdukTable>`
+      // Fetch product data based on the query
+      const data = await sql<ProdukTables>`
+          SELECT *
+          FROM products
+          WHERE
+              nama ILIKE ${`%${query}%`} OR
+              kategori ILIKE ${`%${query}%`}
+          ORDER BY nama ASC
+      `;
+
+      const products = data.rows.map((product) => ({
+          ...product,
+          harga: parseFloat(product.harga),  // Convert to number for calculations
+          stok: parseInt(product.stok),     // Convert to integer for stock management
+      }));
+
+      return products;
+  } catch (err) {
+      console.error('Database Error:', err);
+      throw new Error('Failed to fetch product table.');
+  }
+}
+
+export async function fetchProdukPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM produk
+    WHERE
+      produk.nama ILIKE ${`%${query}%`} OR
+      produk.kategori ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of produk.');
+  }
+}
+
+export async function fetchProdukById(id: string) {
+  noStore();
+  try {
+    const data = await sql<ProdukForm>`
       SELECT
         produk.id_produk,
-        produk.amount,
-        produk.date,
-        produk.status,
-        customers.name,
-        customers.email,
-        customers.image_url
-      FROM invoices
-      JOIN customers ON invoices.customer_id = customers.id
-      WHERE
-        customers.name ILIKE ${`%${query}%`} OR
-        customers.email ILIKE ${`%${query}%`} OR
-        produk.amount::text ILIKE ${`%${query}%`} OR
-        produk.date::text ILIKE ${`%${query}%`} OR
-        produk.status ILIKE ${`%${query}%`}
-      ORDER BY produk.date DESC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        produk.nama,
+        produk.kategori,
+        produk.harga,
+        produk.stok,
+        produk.image_url
+      FROM produk
+      WHERE produk.id = ${id};
     `;
 
-    return produk.rows;
+    const produk = data.rows.map((produk) => ({
+      ...produk,
+      image_url: produk.image_url || 'default-image-url.jpg'
+    }));
+
+    console.log(produk); 
+    return produk[0];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch produk.');
