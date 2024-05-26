@@ -9,7 +9,6 @@ export default function PuffLogos() {
       {/* <div className="absolute top-0 left-0 p-4"> Position text top left */}
         {/* <p className={`${rowdies.className} text-[35px]`}>Puff Paradise</p> */}
     
-
       <Image
         src="/assets/puff4.png"
         width={200}
