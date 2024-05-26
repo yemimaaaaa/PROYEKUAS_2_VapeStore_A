@@ -1,3 +1,3 @@
 export default function Page() {
-    return <p>Transaksi Page</p>;
+    return <p>Invoices Page</p>;
   }
