@@ -3,6 +3,7 @@ import { sql } from '@vercel/postgres';
 import {
   CustomerField,
   CustomersTableType,
+  ProdukTableType,
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
@@ -94,63 +95,68 @@ export async function fetchCardData() {
   }
 }
  
-// const ITEMS_PER_PAGE = 6;
-// export async function fetchFilteredInvoices(
-//   query: string,
-//   currentPage: number,
-// ) {
-//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-//   noStore();
-//   try {
-//     const invoices = await sql<InvoicesTable>`
-//       SELECT
-//         invoices.id,
-//         invoices.amount,
-//         invoices.date,
-//         invoices.status,
-//         customers.name,
-//         customers.email,
-//         customers.image_url
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       WHERE
-//         customers.name ILIKE ${`%${query}%`} OR
-//         customers.email ILIKE ${`%${query}%`} OR
-//         invoices.amount::text ILIKE ${`%${query}%`} OR
-//         invoices.date::text ILIKE ${`%${query}%`} OR
-//         invoices.status ILIKE ${`%${query}%`}
-//       ORDER BY invoices.date DESC
-//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-//     `;
+const ITEMS_PER_PAGE = 6;
+export async function fetchFilteredInvoices(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  noStore();
+  try {
+    const invoices = await sql<InvoicesTable>`
+      SELECT
+        invoices.id,
+        invoices.total_harga,
+        invoices.date,
+        invoices.status,
+        invoices.kuantitas,
+        customers.nama,
+        customers.pesanan,
+        customers.no_telp,
+        customers.image_url
+      FROM invoices
+      JOIN customers ON invoices.customer_id = customers.id
+      WHERE
+        customers.nama ILIKE ${`%${query}%`} OR
+        customers.pesanan ILIKE ${`%${query}%`} OR
+        customers.no_telp ILIKE ${`%${query}%`} OR
+        invoices.kuantitas ILIKE ${`%${query}%`} OR
+        invoices.total_harga::text ILIKE ${`%${query}%`} OR
+        invoices.date::text ILIKE ${`%${query}%`} OR
+        invoices.status ILIKE ${`%${query}%`}
+      ORDER BY invoices.date DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
  
-//     return invoices.rows;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch invoices.');
-//   }
-// }
+    return invoices.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch invoices.');
+  }
+}
  
-// export async function fetchInvoicesPages(query: string) {
-//   noStore();
-//   try {
-//     const count = await sql`SELECT COUNT(*)
-//     FROM invoices
-//     JOIN customers ON invoices.customer_id = customers.id
-//     WHERE
-//       customers.name ILIKE ${`%${query}%`} OR
-//       customers.email ILIKE ${`%${query}%`} OR
-//       invoices.amount::text ILIKE ${`%${query}%`} OR
-//       invoices.date::text ILIKE ${`%${query}%`} OR
-//       invoices.status ILIKE ${`%${query}%`}
-//   `;
+export async function fetchInvoicesPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM invoices
+    JOIN customers ON invoices.customer_id = customers.id
+    WHERE
+      customers.nama ILIKE ${`%${query}%`} OR
+      customers.pesanan ILIKE ${`%${query}%`} OR
+      invoices. kuantitas ILIKE ${`%${query}%`} OR
+      invoices.total_harga::text ILIKE ${`%${query}%`} OR
+      invoices.date::text ILIKE ${`%${query}%`} OR
+      invoices.status ILIKE ${`%${query}%`}
+  `;
  
-//     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-//     return totalPages;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch total number of invoices.');
-//   }
-// }
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of invoices.');
+  }
+}
  
 // export async function fetchInvoiceById(id: string) {
 //   noStore();
@@ -250,44 +256,46 @@ export async function fetchCardData() {
 //   }
 // }
  
-// export async function fetchFilteredCustomers(
-//   query: string,
-//   currentPage: number,
-// ) {
-//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-//   noStore();
-//   try {
-//     const data = await sql<CustomersTableType>`
-//     SELECT
-//       customers.id,
-//       customers.name,
-//       customers.email,
-//       customers.image_url,
-//       COUNT(invoices.id) AS total_invoices,
-//       SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
-//       SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
-//     FROM customers
-//     LEFT JOIN invoices ON customers.id = invoices.customer_id
-//     WHERE
-//       customers.name ILIKE ${`%${query}%`} OR
-//       customers.email ILIKE ${`%${query}%`}
-//     GROUP BY customers.id, customers.name, customers.email, customers.image_url
-//     ORDER BY customers.name ASC
-//     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-//     `;
+export async function fetchFilteredCustomers(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  noStore();
+  try {
+    const data = await sql<CustomersTableType>`
+    SELECT
+      customers.id,
+      customers.nama,
+      customers.no_telp,
+      customers.pesanan,
+      customers.date,
+      customers.image_url,
+      COUNT(invoices.id) AS total_invoices,
+      SUM(CASE WHEN invoices.status = 'pending' THEN invoices.total_harga ELSE 0 END) AS total_pending,
+      SUM(CASE WHEN invoices.status = 'paid' THEN invoices.total_harga ELSE 0 END) AS total_paid
+    FROM customers
+    LEFT JOIN invoices ON customers.id = invoices.customer_id
+    WHERE
+      customers.nama ILIKE ${`%${query}%`} OR
+      customers.no_telp ILIKE ${`%${query}%`}
+    GROUP BY customers.id, customers.nama, customers.no_telp, customers.pesanan, customers.date, customers.image_url
+    ORDER BY customers.nama ASC
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
  
-//     const customers = data.rows.map((customer) => ({
-//       ...customer,
-//       total_pending: formatCurrency(customer.total_pending),
-//       total_paid: formatCurrency(customer.total_paid),
-//     }));
+    const customers = data.rows.map((customer) => ({
+      ...customer,
+      total_pending: formatCurrency(customer.total_pending),
+      total_paid: formatCurrency(customer.total_paid),
+    }));
  
-//     return customers;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch customer table.');
-//   }
-// }
+    return customers;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customer table.');
+  }
+}
  
 // export async function getUser(email: string) {
 //   try {
@@ -376,22 +384,22 @@ export async function fetchCardData() {
 // //   }
 // // }
 
-// export async function fetchCustomersPages(query: string) {
-//   try {
-//     const count = await sql`
-//       SELECT COUNT(*)
-//       FROM customers
-//       WHERE customers.name ILIKE ${`%${query}%`} OR
-//             customers.email ILIKE ${`%${query}%`}
-//     `;
-//     const totalCount = Number(count.rows[0].count) || 0;
-//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-//     return totalPages;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch total number of customers.');
-//   }
-// }
+export async function fetchCustomersPages(query: string) {
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM customers
+      WHERE customers.nama ILIKE ${`%${query}%`} OR
+            customers.no_telp ILIKE ${`%${query}%`}
+    `;
+    const totalCount = Number(count.rows[0].count) || 0;
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of customers.');
+  }
+}
 
 
 // // export async function fetchCustomersById(id: string) {
@@ -421,3 +429,116 @@ export async function fetchCardData() {
 // //     throw new Error('Failed to fetch customer.');
 // //   }
 // // }
+
+
+// export async function fetchProdukPages(query: string) {
+//   try {
+//     const count = await sql`
+//       SELECT COUNT(*)
+//       FROM produk
+//       WHERE produk.nama ILIKE ${`%${query}%`} OR
+//             produk.kategori ILIKE ${`%${query}%`}
+//     `;
+//     const totalCount = Number(count.rows[0].count) || 0;
+//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+//     return totalPages;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch total number of customers.');
+//   }
+// }
+
+// export async function fetchFilteredProduk(
+//   query: string,
+//   currentPage: number,
+// ) {
+//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+//   noStore();
+//   try {
+//     const data = await sql<ProdukTableType>`
+//     SELECT
+//       produk.id_produk,
+//       produk.nama,
+//       produk.kategori,
+//       produk.harga,
+//       produk.stok,
+//       produk.date,
+//       produk.image_url,
+//       COUNT(invoices.id) AS total_invoices,
+//       SUM(CASE WHEN invoices.status = 'pending' THEN invoices.total_harga ELSE 0 END) AS total_pending,
+//       SUM(CASE WHEN invoices.status = 'paid' THEN invoices.total_harga ELSE 0 END) AS total_paid
+//     FROM produk
+//     LEFT JOIN invoices ON produk.id_produk = invoices.customer_id
+//     WHERE
+//       produk.nama ILIKE ${`%${query}%`} OR
+//       produk.kategori ILIKE ${`%${query}%`}
+//     GROUP BY produk.id_produk, produk.nama, produk.kategori, produk.harga, produk.stok, produk.date, produk.image_url,
+//     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+//     `;
+ 
+//     const produk = data.rows.map((produk) => ({
+//       ...produk,
+//       total_pending: formatCurrency(produk.total_pending),
+//       total_paid: formatCurrency(produk.total_paid),
+//     }));
+ 
+//     return produk;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch customer table.');
+//   } }
+
+export async function fetchProdukPages(query: string) {
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM produk
+      WHERE produk.nama ILIKE ${`%${query}%`} OR
+            produk.no_telp ILIKE ${`%${query}%`}
+    `;
+    const totalCount = Number(count.rows[0].count) || 0;
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of produk.');
+  }
+}
+
+export async function fetchFilteredProduk(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  noStore();
+  try {
+    const data = await sql<ProdukTableType>`
+    SELECT
+      produk.id_produk,
+      produk.nama,
+      produk.kategori,
+      produk.harga,
+      produk.stok,
+      produk.date,
+      produk.image_url,
+    FROM produk
+    WHERE
+      produk.nama ILIKE ${`%${query}%`} OR
+      produk.kategori ILIKE ${`%${query}%`}
+    GROUP BY produk.id_produk, produk.nama, produk.kategori, produk.harga, produk.stok, produk.date, produk.image_url
+    ORDER BY produk.nama ASC
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+ 
+    const produk = data.rows.map((produk) => ({
+      ...produk,
+      // total_pending: formatCurrency(produk.total_pending),
+      // total_paid: formatCurrency(produk.total_paid),
+    }));
+ 
+    return produk;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch produk table.');
+  }
+}

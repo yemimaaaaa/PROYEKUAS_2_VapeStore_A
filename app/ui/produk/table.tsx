@@ -7,16 +7,18 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
-import { fetchFilteredCustomers } from '@/app/lib/data';
+import { fetchFilteredCustomers, fetchFilteredProduk } from '@/app/lib/data';
+import { produk } from '@/app/lib/placeholder-data';
+import { DeleteProduk, UpdateProduk } from './button';
  
-export default async function CustomersTable({
+export default async function ProdukTable({
   query,
   currentPage
 }: {
   query: string;
   currentPage: number;
 }) {
-  const customers = await fetchFilteredCustomers(query, currentPage);
+  const produk = await fetchFilteredProduk(query, currentPage);
   return (
     <div className={`${kanit.className} w-full`}>
       {/* <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
@@ -28,9 +30,9 @@ export default async function CustomersTable({
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-fuchsia-200 p-2 md:pt-0">
               <div className="md:hidden">
-                {customers?.map((customer) => (
+                {produk?.map((produk) => (
                   <div
-                    key={customer.id}
+                    key={produk.id_produk}
                     className="mb-2 w-full rounded-md bg-white p-4"
                   >
                     <div className="flex items-center justify-between border-b pb-4">
@@ -38,36 +40,36 @@ export default async function CustomersTable({
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
                             <Image
-                              src={customer.image_url}
+                              src={produk.image_url}
                               className="rounded-full"
-                              alt={`${customer.nama}'s profile picture`}
+                              alt={`${produk.nama}'s profile picture`}
                               width={28}
                               height={28}
                             />
-                            <p>{customer.nama}</p>
+                            <p>{produk.nama}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
-                          {customer.no_telp}
+                          {produk.kategori}
                         </p>
                       </div>
                     </div>
-                    <div className="flex w-full items-center justify-between border-b py-5">
+                    {/* <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
-                        <p className="font-medium">{customer.total_pending}</p>
+                        <p className="font-medium">{produk.total}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Paid</p>
-                        <p className="font-medium">{customer.total_paid}</p>
+                        <p className="font-medium">{produk.total_paid}</p>
                       </div>
                     </div>
                     <div className="pt-4 text-sm">
-                      <p>{customer.total_invoices} invoices</p>
-                    </div>
+                      <p>{produk.total_invoices} invoices</p>
+                    </div> */}
                     <div className="flex justify-end gap-3">
-                          <UpdateCustomers id={customer.id} />
-                          <DeleteCustomers id={customer.id} />
+                          <UpdateProduk id={produk.id_produk} />
+                          <DeleteProduk id={produk.id_produk} />
                     </div>
                   </div>
                 ))}
@@ -79,15 +81,18 @@ export default async function CustomersTable({
                       Nama
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      No Telepon 
+                      Kategori
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Pesanan 
+                      Harga 
+                    </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
+                      Stok
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Date
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    {/* <th scope="col" className="px-3 py-5 font-medium">
                       Total Invoices
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
@@ -95,47 +100,53 @@ export default async function CustomersTable({
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Total Paid
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
  
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {customers.map((customer) => (
-                    <tr key={customer.id} className="group">
+                  {produk.map((produk) => (
+                    <tr key={produk.id_produk} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
                           <Image
-                            src={customer.image_url}
+                            src={produk.image_url}
                             className="rounded-full"
-                            alt={`${customer.nama}'s profile picture`}
+                            alt={`${produk.nama}'s profile picture`}
                             width={28}
                             height={28}
                           />
-                          <p>{customer.nama}</p>
+                          <p>{produk.nama}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.no_telp}
+                        {produk.kategori}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.pesanan}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 ">
-                        {formatDateToLocal(customer.date)}
+                        {produk.harga}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {produk.stok}
+                      </td>
+                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_invoices}
+                      </td> */}
+                      <td className="whitespace-nowrap bg-white px-4 py-5 ">
+                        {formatDateToLocal(produk.date)}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_pending}
+                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {customer.total_invoices}
+                      </td> */}
+                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {produk.total_pending}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm ">
-                        {customer.total_paid}
-                      </td>
+                        {produk.total_paid}
+                      </td> */}
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
-                          <UpdateCustomers id={customer.id} />
-                          <DeleteCustomers id={customer.id} />
+                          <UpdateProduk id={produk.id_produk} />
+                          <DeleteProduk id={produk.id_produk} />
                         </div>
                       </td>
                     </tr>

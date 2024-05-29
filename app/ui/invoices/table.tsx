@@ -11,44 +11,44 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }) {
-  const invoices = await fetchFilteredInvoices(query, currentPage);
+const invoices = await fetchFilteredInvoices(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-fuchsia-200 p-2 md:pt-0">
           <div className="md:hidden">
-            {invoices?.map((invoice) => (
+            {invoices?.map((invoices) => (
               <div
-                key={invoice.id}
+                key={invoices.id}
                 className="mb-2 w-full rounded-md bg-white p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={invoice.image_url}
+                        src={invoices.image_url}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt={`${invoice.name}'s profile picture`}
+                        alt={`${invoices.nama}'s profile picture`}
                       />
-                      <p>{invoice.name}</p>
+                      <p>{invoices.nama}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{invoice.email}</p>
+                    {/* <p className="text-sm text-gray-500">{invoices.email}</p> */}
                   </div>
-                  <InvoiceStatus status={invoice.status} />
+                  <InvoiceStatus status={invoices.status} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
-                      {formatCurrency(invoice.amount)}
+                      {formatCurrency(invoices.total_harga)}
                     </p>
-                    <p>{formatDateToLocal(invoice.date)}</p>
+                    <p>{formatDateToLocal(invoices.date)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={invoice.id} />
-                    <DeleteInvoice id={invoice.id} />
+                    <UpdateInvoice id={invoices.id} />
+                    <DeleteInvoice id={invoices.id} />
                   </div>
                 </div>
               </div>
@@ -58,13 +58,16 @@ export default async function InvoicesTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                  Customers
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  No Telepon
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
+                  Kuantitas
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Total Harga
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Date
@@ -90,16 +93,20 @@ export default async function InvoicesTable({
                         className="rounded-full"
                         width={28}
                         height={28}
-                        alt={`${invoice.name}'s profile picture`}
+                        alt={`${invoice.nama}'s profile picture`}
                       />
-                      <p>{invoice.name}</p>
+                      <p>{invoice.nama}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {invoice.email}
+                    {invoice.no_telp}
+                    {/* {formatCurrency(invoice.no_telp)} */}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(invoice.amount)}
+                    {invoice.kuantitas}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {formatCurrency(invoice.total_harga)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatDateToLocal(invoice.date)}

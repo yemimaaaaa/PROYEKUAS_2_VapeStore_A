@@ -217,7 +217,79 @@ export function InvoicesTableSkeleton() {
   );
 }
 
+export function ProdukTableSkeleton() {
+  return (
+    <div className="mt-6 flow-root">
+      <div className="inline-block min-w-full align-middle">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+          <div className="md:hidden">
+            <ProdukTableSkeleton />
+            <ProdukTableSkeleton />
+            <ProdukTableSkeleton />
+            <ProdukTableSkeleton />
+            <ProdukTableSkeleton />
+            <ProdukTableSkeleton />
+          </div>
+          <table className="hidden min-w-full text-gray-900 md:table">
+            <thead className="rounded-lg text-left text-sm font-normal">
+              <tr>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Nama 
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Kategori
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Harga
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Stok
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Date
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Image
+                </th>
+                <th 
+                  scope="col"
+                  className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
+                >
+                  <span className="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              <TableRowSkeleton />
+              <TableRowSkeleton />
+              <TableRowSkeleton />
+              <TableRowSkeleton />
+              <TableRowSkeleton />
+              <TableRowSkeleton />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function CustomersSkeleton() {
+  return (
+    <div className="flex flex-row items-center justify-between border-b border-b border-gray-100 py-4">
+    <div className="flex items-center">
+    <div className="mr-2 h-8 w-8 rounded-full bg-gray-200"/>
+    <div className="min-w-0">
+    <div className="h-5 w-40 rounded-md-bg-gray-200"/>
+    <div className="mt-2 h-4 w-12 rounded-md bg-gray-200"/>
+    </div>
+    </div>
+    <div className="mt-2 h-4 w-12 rounded-md bg-gray-200"/>
+    </div>
+  );
+ }
+
+ export function ProdukSkeleton() {
   return (
     <div className="flex flex-row items-center justify-between border-b border-b border-gray-100 py-4">
     <div className="flex items-center">

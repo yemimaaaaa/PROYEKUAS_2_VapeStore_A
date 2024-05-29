@@ -95,18 +95,32 @@ export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
 export type InvoicesTable = {
   id: string;
   customer_id: string;
-  name: string;
-  email: string;
+  nama: string;
+  // email: string;
+  no_telp: string;
+  kuantitas: string;
   image_url: string;
   date: string;
-  amount: number;
+  total_harga: number;
   status: 'pending' | 'paid';
 };
 
+// export type CustomersTableType = {
+//   id: string;
+//   name: string;
+//   email: string;
+//   image_url: string;
+//   total_invoices: number;
+//   total_pending: number;
+//   total_paid: number;
+// };
+
 export type CustomersTableType = {
   id: string;
-  name: string;
-  email: string;
+  nama: string;
+  no_telp: number;
+  pesanan: string;
+  date: string;
   image_url: string;
   total_invoices: number;
   total_pending: number;
@@ -115,8 +129,9 @@ export type CustomersTableType = {
 
 export type FormattedCustomersTable = {
   id: string;
-  name: string;
-  email: string;
+  nama: string;
+  no_telp: string;
+  pesanan: string;
   image_url: string;
   total_invoices: number;
   total_pending: string;
@@ -173,3 +188,30 @@ export type InvoiceForm = {
 //   image_url: string;
 // }
 //o
+
+// export type ProdukTableType = {
+//   id_produk: string;
+//   nama: string;
+//   kategori: string;
+//   harga: number;
+//   stok: number;
+//   date: string;
+//   image_url: string;
+//   total_invoices: number;
+//   total_pending: number;
+//   total_paid: number;
+// };
+
+export type ProdukTableType = {
+  id: string;
+  id_produk: string;
+  nama: string;
+  kategori: string;
+  harga: number;
+  stok: number;
+  date: string;
+  image_url: string;
+  // total_invoices: number;
+  // total_pending: number;
+  // total_paid: number;
+};
