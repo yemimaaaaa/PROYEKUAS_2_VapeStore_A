@@ -203,7 +203,6 @@ export type InvoiceForm = {
 // };
 
 export type ProdukTableType = {
-  id: string;
   id_produk: string;
   nama: string;
   kategori: string;

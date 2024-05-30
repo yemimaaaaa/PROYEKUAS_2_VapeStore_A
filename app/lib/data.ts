@@ -46,7 +46,7 @@ export async function fetchLatestInvoices() {
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       ORDER BY invoices.date DESC
-      LIMIT 5`;
+      LIMIT 5`;  
  
     const latestInvoices = data.rows.map((invoices) => ({
       ...invoices,
@@ -60,22 +60,22 @@ export async function fetchLatestInvoices() {
 }
  
 export async function fetchCardData() {
-//   noStore();
+//noStore();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-    const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
-    const invoiceStatusPromise = sql`SELECT
+    const invoicesCountPromise = sql`SELECT COUNT(*) FROM invoices`;
+    const customersCountPromise = sql`SELECT COUNT(*) FROM customers`;
+    const invoicesStatusPromise = sql`SELECT
          SUM(CASE WHEN status = 'paid' THEN total_harga ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN total_harga ELSE 0 END) AS "pending"
          FROM invoices`;
  
     const data = await Promise.all([
-      invoiceCountPromise,
-      customerCountPromise,
-      invoiceStatusPromise,
+      invoicesCountPromise,
+      customersCountPromise,
+      invoicesStatusPromise,
     ]);
  
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
@@ -464,9 +464,9 @@ export async function fetchCustomersPages(query: string) {
 //       produk.stok,
 //       produk.date,
 //       produk.image_url,
-//       COUNT(invoices.id) AS total_invoices,
-//       SUM(CASE WHEN invoices.status = 'pending' THEN invoices.total_harga ELSE 0 END) AS total_pending,
-//       SUM(CASE WHEN invoices.status = 'paid' THEN invoices.total_harga ELSE 0 END) AS total_paid
+      // COUNT(invoices.id) AS total_invoices,
+      // SUM(CASE WHEN invoices.status = 'pending' THEN invoices.total_harga ELSE 0 END) AS total_pending,
+      // SUM(CASE WHEN invoices.status = 'paid' THEN invoices.total_harga ELSE 0 END) AS total_paid
 //     FROM produk
 //     LEFT JOIN invoices ON produk.id_produk = invoices.customer_id
 //     WHERE
@@ -494,7 +494,7 @@ export async function fetchProdukPages(query: string) {
       SELECT COUNT(*)
       FROM produk
       WHERE produk.nama ILIKE ${`%${query}%`} OR
-            produk.no_telp ILIKE ${`%${query}%`}
+            produk.kategori ILIKE ${`%${query}%`}
     `;
     const totalCount = Number(count.rows[0].count) || 0;
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);

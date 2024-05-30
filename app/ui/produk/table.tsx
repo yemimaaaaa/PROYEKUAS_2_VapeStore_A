@@ -1,17 +1,10 @@
 import Image from 'next/image';
-import { UpdateCustomers, DeleteCustomers } from '@/app/ui/customers/buttons';
 import { lusitana, kanit, inter } from '@/app/ui/fonts';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import Search from '@/app/ui/search';
-import {
-  CustomersTableType,
-  FormattedCustomersTable,
-} from '@/app/lib/definitions';
 import { fetchFilteredCustomers, fetchFilteredProduk } from '@/app/lib/data';
-import { produk } from '@/app/lib/placeholder-data';
 import { DeleteProduk, UpdateProduk } from './button';
  
-export default async function ProdukTable({
+export default async function ProdukTableType({
   query,
   currentPage
 }: {
@@ -57,14 +50,14 @@ export default async function ProdukTable({
                     {/* <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
-                        <p className="font-medium">{produk.total}</p>
+                        <p className="font-medium">{produk.total_pending}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Paid</p>
                         <p className="font-medium">{produk.total_paid}</p>
-                      </div>
-                    </div>
-                    <div className="pt-4 text-sm">
+                      </div> */}
+                    {/* </div> */}
+                    {/* <div className="pt-4 text-sm">
                       <p>{produk.total_invoices} invoices</p>
                     </div> */}
                     <div className="flex justify-end gap-3">
@@ -94,8 +87,8 @@ export default async function ProdukTable({
                     </th>
                     {/* <th scope="col" className="px-3 py-5 font-medium">
                       Total Invoices
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    </th> */}
+                    {/* <th scope="col" className="px-3 py-5 font-medium">
                       Total Pending
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
@@ -128,14 +121,11 @@ export default async function ProdukTable({
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {produk.stok}
                       </td>
-                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_invoices}
-                      </td> */}
                       <td className="whitespace-nowrap bg-white px-4 py-5 ">
                         {formatDateToLocal(produk.date)}
                       </td>
                       {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_invoices}
+                        {produk.total_invoices}
                       </td> */}
                       {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {produk.total_pending}
