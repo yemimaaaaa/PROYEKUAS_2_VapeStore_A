@@ -431,64 +431,6 @@ export async function fetchCustomersPages(query: string) {
 // //   }
 // // }
 
-
-// export async function fetchProdukPages(query: string) {
-//   try {
-//     const count = await sql`
-//       SELECT COUNT(*)
-//       FROM produk
-//       WHERE produk.nama ILIKE ${`%${query}%`} OR
-//             produk.kategori ILIKE ${`%${query}%`}
-//     `;
-//     const totalCount = Number(count.rows[0].count) || 0;
-//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-//     return totalPages;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch total number of customers.');
-//   }
-// }
-
-// export async function fetchFilteredProduk(
-//   query: string,
-//   currentPage: number,
-// ) {
-//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-//   noStore();
-//   try {
-//     const data = await sql<ProdukTableType>`
-//     SELECT
-//       produk.id_produk,
-//       produk.nama,
-//       produk.kategori,
-//       produk.harga,
-//       produk.stok,
-//       produk.date,
-//       produk.image_url,
-      // COUNT(invoices.id) AS total_invoices,
-      // SUM(CASE WHEN invoices.status = 'pending' THEN invoices.total_harga ELSE 0 END) AS total_pending,
-      // SUM(CASE WHEN invoices.status = 'paid' THEN invoices.total_harga ELSE 0 END) AS total_paid
-//     FROM produk
-//     LEFT JOIN invoices ON produk.id_produk = invoices.customer_id
-//     WHERE
-//       produk.nama ILIKE ${`%${query}%`} OR
-//       produk.kategori ILIKE ${`%${query}%`}
-//     GROUP BY produk.id_produk, produk.nama, produk.kategori, produk.harga, produk.stok, produk.date, produk.image_url,
-//     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-//     `;
- 
-//     const produk = data.rows.map((produk) => ({
-//       ...produk,
-//       total_pending: formatCurrency(produk.total_pending),
-//       total_paid: formatCurrency(produk.total_paid),
-//     }));
- 
-//     return produk;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch customer table.');
-//   } }
-
 export async function fetchProdukPages(query: string) {
   try {
     const count = await sql`
@@ -506,7 +448,6 @@ export async function fetchProdukPages(query: string) {
   }
 }
 
-
 export async function fetchFilteredProduk(
   query: string,
   currentPage: number,
@@ -515,44 +456,33 @@ export async function fetchFilteredProduk(
   noStore();
   try {
     const data = await sql<ProdukTableType>`
-    SELECT
-      produk.id,
-      produk.nama,
-      produk.kategori,
-      produk.harga,
-      produk.stok,
-      produk.date,
-      produk.image_url,
-    FROM produk
-    WHERE
-      produk.nama ILIKE ${`%${query}%`} OR
-      produk.kategori ILIKE ${`%${query}%`}
-    GROUP BY produk.id, produk.nama, produk.kategori, produk.harga, produk.stok, produk.date, produk.image_url
-    ORDER BY produk.nama ASC
-    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      SELECT
+        produk.id,
+        produk.nama,
+        produk.kategori,
+        produk.harga,
+        produk.stok,
+        produk.date,
+        produk.image_url
+      FROM produk
+      WHERE
+        produk.nama ILIKE ${`%${query}%`} OR
+        produk.kategori ILIKE ${`%${query}%`}
+      GROUP BY
+        produk.id,
+        produk.nama,
+        produk.kategori,
+        produk.harga,
+        produk.stok,
+        produk.date,
+        produk.image_url
+      ORDER BY
+        produk.nama ASC
+      LIMIT
+        ${ITEMS_PER_PAGE} OFFSET ${offset};
     `;
- 
-    const produk = data.rows.map((produk) => ({
-      // ...produk,
-      id: produk.id,
-      nama: produk.nama,
-      kategori: produk.kategori,
-      harga: produk.harga,
-      stok: produk.stok,
-      date: produk.date,
-      image_url: produk.image_url,
-      // total_pending: formatCurrency(produk.total_pending),
-      // total_paid: formatCurrency(produk.total_paid),
-    })
-  );
- 
-    return produk;
+    return data.rows; 
   } catch (error) {
-    // if (error instanceof sql.Error) {
-    //   console.error('SQL Error:', error);
-    // } else {
-    //   console.error('Database Error:', error);
-    // }
     console.error('Database Error:', error);
     throw new Error('Failed to fetch produk table.');
   }

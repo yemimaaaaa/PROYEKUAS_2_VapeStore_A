@@ -8,7 +8,6 @@ import { Suspense } from 'react';
 import { fetchCustomersPages } from '@/app/lib/data';
  
 // export default async function Page() {
-
 export default async function Page({
   searchParams,
 }: {
@@ -39,4 +38,3 @@ export default async function Page({
     </div>
   );
 }
-

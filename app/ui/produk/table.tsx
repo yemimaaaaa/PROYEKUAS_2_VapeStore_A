@@ -1,18 +1,10 @@
 import Image from 'next/image';
-// import { UpdateCustomers, DeleteCustomers } from '@/app/ui/customers/buttons';
 import { lusitana, kanit, inter } from '@/app/ui/fonts';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import Search from '@/app/ui/search';
-import {
-  CustomersTableType,
-  ProdukTableType,
-  FormattedCustomersTable,
-} from '@/app/lib/definitions';
-import { fetchFilteredCustomers } from '@/app/lib/data';
 import { fetchFilteredProduk } from '@/app/lib/data';
 import { DeleteProduk, UpdateProduk } from './button';
  
-export default async function ProdukTable({
+export default async function ProdukTableType({
   query,
   currentPage
 }: {
@@ -112,10 +104,10 @@ export default async function ProdukTable({
                         <div className="flex items-center gap-3">
                           <Image
                             src={produk.image_url}
-                            className="rounded-full"
+                            className="square-full"
                             alt={`${produk.nama}'s profile picture`}
-                            width={28}
-                            height={28}
+                            width={100}
+                            height={100}
                           />
                           <p>{produk.nama}</p>
                         </div>
@@ -158,3 +150,4 @@ export default async function ProdukTable({
     </div>
   );
 }
+
