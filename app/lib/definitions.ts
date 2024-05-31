@@ -26,7 +26,7 @@ export type Customers = {
 }
 
 export type Produk = {
-  id_produk: string;
+  id: string;
   nama: string;
   kategori: string;
   harga: number;
@@ -203,7 +203,8 @@ export type InvoiceForm = {
 // };
 
 export type ProdukTableType = {
-  id_produk: string;
+  // id_produk: string;
+  id: string;
   nama: string;
   kategori: string;
   harga: number;

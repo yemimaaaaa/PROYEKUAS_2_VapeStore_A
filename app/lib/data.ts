@@ -10,6 +10,7 @@ import {
   User,
   Revenue,
   Customers,
+  Produk,
   // CustomersTable,
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -505,6 +506,7 @@ export async function fetchProdukPages(query: string) {
   }
 }
 
+
 export async function fetchFilteredProduk(
   query: string,
   currentPage: number,
@@ -514,7 +516,7 @@ export async function fetchFilteredProduk(
   try {
     const data = await sql<ProdukTableType>`
     SELECT
-      produk.id_produk,
+      produk.id,
       produk.nama,
       produk.kategori,
       produk.harga,
@@ -525,19 +527,32 @@ export async function fetchFilteredProduk(
     WHERE
       produk.nama ILIKE ${`%${query}%`} OR
       produk.kategori ILIKE ${`%${query}%`}
-    GROUP BY produk.id_produk, produk.nama, produk.kategori, produk.harga, produk.stok, produk.date, produk.image_url
+    GROUP BY produk.id, produk.nama, produk.kategori, produk.harga, produk.stok, produk.date, produk.image_url
     ORDER BY produk.nama ASC
     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
  
     const produk = data.rows.map((produk) => ({
-      ...produk,
+      // ...produk,
+      id: produk.id,
+      nama: produk.nama,
+      kategori: produk.kategori,
+      harga: produk.harga,
+      stok: produk.stok,
+      date: produk.date,
+      image_url: produk.image_url,
       // total_pending: formatCurrency(produk.total_pending),
       // total_paid: formatCurrency(produk.total_paid),
-    }));
+    })
+  );
  
     return produk;
   } catch (error) {
+    // if (error instanceof sql.Error) {
+    //   console.error('SQL Error:', error);
+    // } else {
+    //   console.error('Database Error:', error);
+    // }
     console.error('Database Error:', error);
     throw new Error('Failed to fetch produk table.');
   }

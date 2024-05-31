@@ -1,10 +1,18 @@
 import Image from 'next/image';
+// import { UpdateCustomers, DeleteCustomers } from '@/app/ui/customers/buttons';
 import { lusitana, kanit, inter } from '@/app/ui/fonts';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredCustomers, fetchFilteredProduk } from '@/app/lib/data';
+import Search from '@/app/ui/search';
+import {
+  CustomersTableType,
+  ProdukTableType,
+  FormattedCustomersTable,
+} from '@/app/lib/definitions';
+import { fetchFilteredCustomers } from '@/app/lib/data';
+import { fetchFilteredProduk } from '@/app/lib/data';
 import { DeleteProduk, UpdateProduk } from './button';
  
-export default async function ProdukTableType({
+export default async function ProdukTable({
   query,
   currentPage
 }: {
@@ -25,7 +33,7 @@ export default async function ProdukTableType({
               <div className="md:hidden">
                 {produk?.map((produk) => (
                   <div
-                    key={produk.id_produk}
+                    key={produk.id}
                     className="mb-2 w-full rounded-md bg-white p-4"
                   >
                     <div className="flex items-center justify-between border-b pb-4">
@@ -50,19 +58,19 @@ export default async function ProdukTableType({
                     {/* <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
-                        <p className="font-medium">{produk.total_pending}</p>
+                        <p className="font-medium">{customer.total_pending}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Paid</p>
-                        <p className="font-medium">{produk.total_paid}</p>
-                      </div> */}
-                    {/* </div> */}
-                    {/* <div className="pt-4 text-sm">
-                      <p>{produk.total_invoices} invoices</p>
+                        <p className="font-medium">{customer.total_paid}</p>
+                      </div>
+                    </div>
+                    <div className="pt-4 text-sm">
+                      <p>{customer.total_invoices} invoices</p>
                     </div> */}
                     <div className="flex justify-end gap-3">
-                          <UpdateProduk id={produk.id_produk} />
-                          <DeleteProduk id={produk.id_produk} />
+                          <UpdateProduk id={produk.id} />
+                          <DeleteProduk id={produk.id} />
                     </div>
                   </div>
                 ))}
@@ -77,7 +85,7 @@ export default async function ProdukTableType({
                       Kategori
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Harga 
+                      Harga
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
                       Stok
@@ -87,8 +95,8 @@ export default async function ProdukTableType({
                     </th>
                     {/* <th scope="col" className="px-3 py-5 font-medium">
                       Total Invoices
-                    </th> */}
-                    {/* <th scope="col" className="px-3 py-5 font-medium">
+                    </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
                       Total Pending
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
@@ -99,7 +107,7 @@ export default async function ProdukTableType({
  
                 <tbody className="divide-y divide-gray-200 text-gray-900">
                   {produk.map((produk) => (
-                    <tr key={produk.id_produk} className="group">
+                    <tr key={produk.id} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
                           <Image
@@ -125,18 +133,18 @@ export default async function ProdukTableType({
                         {formatDateToLocal(produk.date)}
                       </td>
                       {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {produk.total_invoices}
-                      </td> */}
-                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {produk.total_pending}
+                        {customer.total_invoices}
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {customer.total_pending}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm ">
-                        {produk.total_paid}
+                        {customer.total_paid}
                       </td> */}
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
-                          <UpdateProduk id={produk.id_produk} />
-                          <DeleteProduk id={produk.id_produk} />
+                          <UpdateProduk id={produk.id} />
+                          <DeleteProduk id={produk.id} />
                         </div>
                       </td>
                     </tr>

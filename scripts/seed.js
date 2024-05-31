@@ -95,7 +95,6 @@ async function seedProduk(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS produk (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        id_produk UUID NOT NULL,
         nama VARCHAR(255) NOT NULL,
         kategori VARCHAR(255) NOT NULL,
         harga INT NOT NULL,
@@ -111,8 +110,8 @@ async function seedProduk(client) {
     const insertedProduk = await Promise.all(
       produk.map(
         (produk) => client.sql`
-        INSERT INTO produk (id_produk, nama, kategori, harga, stok, date, image_url)
-        VALUES (${produk.id_produk}, ${produk.nama}, ${produk.kategori}, ${produk.harga}, ${produk.stok}, ${produk.date}, ${produk.image_url || 'default_image_url'})
+        INSERT INTO produk (id, nama, kategori, harga, stok, date, image_url)
+        VALUES (${produk.id}, ${produk.nama}, ${produk.kategori}, ${produk.harga}, ${produk.stok}, ${produk.date}, ${produk.image_url || 'default_image_url'})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
