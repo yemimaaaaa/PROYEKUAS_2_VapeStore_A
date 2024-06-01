@@ -90,9 +90,9 @@ const invoices = await fetchFilteredInvoices(query, currentPage);
                     <div className="flex items-center gap-3">
                       <Image
                         src={invoice.image_url}
-                        className="square-full"
-                        width={50}
-                        height={50}
+                        className="rounded-full"
+                        width={40}
+                        height={40}
                         alt={`${invoice.nama}'s profile picture`}
                       />
                       <p>{invoice.nama}</p>

@@ -61,7 +61,7 @@ export async function fetchLatestInvoices() {
 }
  
 export async function fetchCardData() {
-//noStore();
+noStore();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -152,7 +152,8 @@ export async function fetchInvoicesPages(query: string) {
   `;
  
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    return totalPages;
+    const displayedTotalPages = totalPages <= 5 ? totalPages : 2;
+    return displayedTotalPages;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
@@ -238,25 +239,7 @@ export async function fetchInvoicesPages(query: string) {
 // //     throw new Error('Failed to fetch reservations.');
 // //   }
 // // }
- 
-// export async function fetchCustomers() {
-//   try {
-//     const data = await sql<CustomerField>`
-//       SELECT
-//         id,
-//         name
-//       FROM customers
-//       ORDER BY name ASC
-//     `;
- 
-//     const customers = data.rows;
-//     return customers;
-//   } catch (err) {
-//     console.error('Database Error:', err);
-//     throw new Error('Failed to fetch all customers.');
-//   }
-// }
- 
+  
 export async function fetchFilteredCustomers(
   query: string,
   currentPage: number,

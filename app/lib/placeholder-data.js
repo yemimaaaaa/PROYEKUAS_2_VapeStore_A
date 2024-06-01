@@ -335,6 +335,41 @@ const revenue = [
   { month: 'Dec', revenue: 4000 },
 ];
 
+// const orders = [
+//   {
+//     id: '3958dc9e-001f-4377-85e9-fec4b6a6442a',
+//     total_pesanan: '250000',
+//     item_pesanan: 'Dragon Cloudz | Atomizer| 2',
+//     metode_pembayaran: 'cash',
+//     date: '2024-05-20',
+//     image_url: '/produk/dragon cloudz.png',
+//   },
+//   {
+//     id: '3958dc9e-004f-4377-85e9-fec4b6a6442a',
+//     total_pesanan: '95000',
+//     item_pesanan: 'Movi | E-liquid | 1',
+//     metode_pembayaran: 'bank transfers',
+//     date: '2024-05-20',
+//     image_url: '/produk/movi.png',
+//   },
+//   {
+//     id: '3958dc9e-008f-4377-85e9-fec4b6a6442a',
+//     total_pesanan: '400000',
+//     item_pesanan: 'GEEKVAPE | Device | 1',
+//     metode_pembayaran: 'cash',
+//     date: '2024-05-20',
+//     image_url: '/produk/Geekvape.png',
+//   },
+//   {
+//     id: '3958dc9e-009f-4377-85e9-fec4b6a6442a',
+//     total_pesanan: '250000',
+//     item_pesanan: 'Dragon Cloudz | Atomizer| 2',
+//     metode_pembayaran: 'bank transfers',
+//     date: '2024-05-20',
+//     image_url: '/produk/dragon cloudz.png',
+//   },
+// ]
+
 // const revenue = [
 // {
 //    kode_revenue: 'AB900001',
@@ -375,5 +410,6 @@ module.exports = {
   customers,
   invoices,
   revenue,
+  orders,
   produk
 };
