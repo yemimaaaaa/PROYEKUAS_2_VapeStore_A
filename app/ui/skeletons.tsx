@@ -342,22 +342,22 @@ export function CustomersSkeleton() {
                   Nama 
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Item Pesanan
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
                   Harga
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Total Pesanan
+                  Barang
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Jumlah
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Date
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Image
+                  Keterangan
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium">
-                  Keterangan
+                  Image
                 </th>
                 <th 
                   scope="col"

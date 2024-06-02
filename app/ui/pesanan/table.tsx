@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { lusitana, kanit, inter } from '@/app/ui/fonts';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredPesanan } from '@/app/lib/data';
-import { UpdatePesanan } from './button';
+import { DeletePesanan, UpdatePesanan } from './button';
  
 export default async function PesananTable({
   query,
@@ -58,7 +58,7 @@ export default async function PesananTable({
                     </div> */}
                     <div className="flex justify-end gap-3">
                           <UpdatePesanan id={pesanan.id} />
-                          {/* <DeleteProduk id={produk.id} /> */}
+                          <DeletePesanan id={pesanan.id} />
                     </div>
                   </div>
                 ))}
@@ -70,13 +70,13 @@ export default async function PesananTable({
                       Nama
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Item Pesanan
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
                       Harga
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Total Pesanan
+                      Barang
+                    </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
+                      Jumlah
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Date
@@ -103,10 +103,10 @@ export default async function PesananTable({
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {pesanan.barang}
+                        {pesanan.harga}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {pesanan.harga}
+                        {pesanan.barang}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {pesanan.jumlah}
@@ -120,7 +120,7 @@ export default async function PesananTable({
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
                           <UpdatePesanan id={pesanan.id} />
-                          {/* <DeleteProduk id={produk.id} /> */}
+                          <DeletePesanan id={pesanan.id} />
                         </div>
                       </td>
                     </tr>

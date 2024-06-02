@@ -481,24 +481,24 @@ export async function fetchFilteredPesanan(query: string, currentPage: number) {
       SELECT
           pesanan.id,
           pesanan.nama,
-          pesanan.barang,
           pesanan.harga,
+          pesanan.barang,
           pesanan.jumlah,
-          pesanan.keterangan,
           pesanan.date,
+          pesanan.keterangan,
           pesanan.image_url
           FROM pesanan
       WHERE
           pesanan.nama ILIKE ${`%${query}%`} OR 
-          pesanan.pesanan ILIKE ${`%${query}%`} 
+          pesanan.barang ILIKE ${`%${query}%`} 
       GROUP BY
           pesanan.id,
           pesanan.nama,
-          pesanan.barang,
           pesanan.harga,
+          pesanan.barang,
           pesanan.jumlah,
-          pesanan.keterangan,
           pesanan.date,
+          pesanan.keterangan,
           pesanan.image_url
       ORDER BY
         pesanan.nama ASC
@@ -520,7 +520,7 @@ export async function fetchPesananPages(query: string) {
       WHERE pesanan.nama ILIKE ${`%${query}%`} OR
       pesanan.barang ILIKE ${`%${query}%`}
     `;
-    const totalCount = Number(count.rows[0].count) || 0;
+    const totalCount = count.rows[0].count ? parseInt(count.rows[0].count, 10) : 0;
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {

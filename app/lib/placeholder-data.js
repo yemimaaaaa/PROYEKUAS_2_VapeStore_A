@@ -335,46 +335,46 @@ const revenue = [
   { month: 'Dec', revenue: 4000 },
 ];
 
-const order = [
+const pesanan = [
   {
      id: '3958dc9e-009f-4377-85e9-fec4b6a6452a',
      nama: 'Max Delose',
      harga: 250000,
-     pesanan: 'Dragon Cloudz',
+     barang: 'Dragon Cloudz',
      jumlah: 2,
      date: '2024-05-31', 
      keterangan: 'sedang diproses',
-     image_url: '/produk/dragon cloudz.png',
+     image_url: '/customers/MAX LOSE.png',
   },
   {
     id: '3958dc9e-008f-4377-85e9-fec4b6a6452a',
     nama: 'Lando Norris',
     harga: 400000,
-    pesanan: 'GEEKVAPE',
+    barang: 'GEEKVAPE',
     jumlah: 2,
     date: '2024-05-31', 
     keterangan: 'done',
-    image_url: '/produk/Geekvape.png',
+    image_url: '/customers/lando noWIN.png',
  },
  {
   id: '3958dc9e-001f-4377-85e9-fec4b6a6452a',
   nama: 'Lando Norris',
   harga: 250000,
-  pesanan: 'Dragon Cloudz',
+  barang: 'Dragon Cloudz',
   jumlah: 4,
   date: '2024-05-31', 
   keterangan: 'done',
-  image_url: '/produk/dragon cloudz.png',
+  image_url: '/customers/lando noWIN.png',
 },
 {
   id: '3958dc9e-004f-4377-85e9-fec4b6a6452a',
   nama: 'Nilan Denus',
   harga: 95000,
-  pesanan: 'Movi',
+  barang: 'Movi',
   jumlah: 1,
   date: '2024-05-31', 
   keterangan: 'sedang diproses',
-  image_url: '/produk/movi.png',
+  image_url: '/customers/CUST 2.png',
 },
 ];
   
@@ -418,6 +418,6 @@ module.exports = {
   customers,
   invoices,
   revenue,
-  order,
+  pesanan,
   produk
 };

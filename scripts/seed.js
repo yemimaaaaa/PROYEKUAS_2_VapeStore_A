@@ -175,36 +175,33 @@ async function seedInvoices(client) {
 async function seedPesanan(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
     // Create the "pesanan" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS pesanan (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         nama VARCHAR(255) NOT NULL,
-        barang VARCHAR(255) NOT NULL,
         harga INT NOT NULL,
+        barang VARCHAR(255) NOT NULL,
         jumlah INT NOT NULL,
         date DATE NOT NULL,
-        image_url VARCHAR(255) NOT NULL,
-        keterangan VARCHAR(255) NOT NULL
+        keterangan VARCHAR(255) NOT NULL,
+        image_url VARCHAR(255) NOT NULL
       );
     `;
-
     console.log(`Created "pesanan" table`);
 
     // Insert data into the "pesanan" table
-    const insertedpesanan = await Promise.all(
+    const insertedPesanan = await Promise.all(
       pesanan.map(
         (pesanan) => client.sql`
-        INSERT INTO pesanan (id, nama, barang, harga, keterangan, jumlah, date, image_url)
-        VALUES (${pesanan.id}, ${pesanan.nama}, ${pesanan.barang}, ${pesanan.harga}, ${pesanan.keterangan}, ${pesanan.jumlah}, ${pesanan.date}, ${pesanan.image_url || 'default_image_url'})
+        INSERT INTO pesanan (id, nama, harga, barang, jumlah, date, keterangan, image_url)
+        VALUES (${pesanan.id}, ${pesanan.nama}, ${pesanan.harga}, ${pesanan.barang}, ${pesanan.jumlah}, ${pesanan.date}, ${pesanan.keterangan}, ${pesanan.image_url || 'default_image_url'})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
     );
 
-    console.log(`Seeded ${insertedpesanan.length} 
-    `);
+    console.log(`Seeded ${insertedPesanan.length} pesanan`);
 
     return {
       createTable,

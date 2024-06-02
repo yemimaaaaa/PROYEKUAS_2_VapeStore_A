@@ -209,10 +209,10 @@ export type ProdukTableType = {
 export type PesananTableType = {
   id: string;
   nama: string;
-  barang: string;
-  keterangan: string;
   harga: number;
+  barang: string;
   jumlah: number;
   date: string;
+  keterangan: string;
   image_url: string;
 }
