@@ -96,8 +96,8 @@ export default async function PesananTable({
                             src={pesanan.image_url}
                             className="mr-2 rounded-full"
                             alt={`${pesanan.nama}'s profile picture`}
-                            width={28}
-                            height={28}
+                            width={50}
+                            height={50}
                           />
                           <p>{pesanan.nama}</p>
                         </div>
