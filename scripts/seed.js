@@ -4,6 +4,7 @@ const {
   produk,
   customers,
   revenue,
+  pesanan,
   users,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
@@ -171,44 +172,49 @@ async function seedInvoices(client) {
   }
 }
 
-// async function seedOrders(client) {
-//   try {
-//     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+async function seedPesanan(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-//     // Create the "produk" table if it doesn't exist
-//     const createTable = await client.sql`
-//       CREATE TABLE IF NOT EXISTS orders (
-//         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-//         total_pesanan INT NOT NULL,
-//         item_pesanan VARCHAR(255) NOT NULL,
-//         metode_pembayaran VARCHAR(255) NOT NULL,
-//         date DATE NOT NULL,
-//         image_url VARCHAR(255) DEFAULT 'default_image_url'
-//       );
-//     `;
+    // Create the "pesanan" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS pesanan (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        nama VARCHAR(255) NOT NULL,
+        barang VARCHAR(255) NOT NULL,
+        harga INT NOT NULL,
+        jumlah INT NOT NULL,
+        date DATE NOT NULL,
+        image_url VARCHAR(255) NOT NULL,
+        keterangan VARCHAR(255) NOT NULL
+      );
+    `;
 
-//     console.log(`Created "orders" table`);
-//     const insertedOrders = await Promise.all(
-//       produk.map(
-//         (orders) => client.sql`
-//         INSERT INTO orders (id, total_pesanan, metode_pembayaran, date, image_url)
-//         VALUES (${orders.id}, ${orders.total_pesanan}, ${orders.metode_pembayaran}, ${orders.date}, ${orders.image_url || 'default_image_url'})
-//         ON CONFLICT (id) DO NOTHING;
-//       `,
-//       ),
-//     );
+    console.log(`Created "pesanan" table`);
 
-//     console.log(`Seeded ${insertedOrders.length} orders`);
+    // Insert data into the "pesanan" table
+    const insertedpesanan = await Promise.all(
+      pesanan.map(
+        (pesanan) => client.sql`
+        INSERT INTO pesanan (id, nama, barang, harga, keterangan, jumlah, date, image_url)
+        VALUES (${pesanan.id}, ${pesanan.nama}, ${pesanan.barang}, ${pesanan.harga}, ${pesanan.keterangan}, ${pesanan.jumlah}, ${pesanan.date}, ${pesanan.image_url || 'default_image_url'})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+      ),
+    );
 
-//     return {
-//       createTable,
-//       orders: insertedOrders
-//     };
-//   } catch (error) {
-//     console.error('Error seeding orders', error);
-//     throw error;
-//   }
-// }
+    console.log(`Seeded ${insertedpesanan.length} 
+    `);
+
+    return {
+      createTable,
+      pesanan: insertedPesanan,
+    };
+  } catch (error) {
+    console.error('Error seeding pesanan:', error);
+    throw error;
+  }
+}
 
 async function seedRevenue(client) {
   try {
@@ -251,7 +257,7 @@ async function main() {
   await seedProduk(client);
   await seedCustomers(client);
   await seedInvoices(client);
-  // await seedOrders(client);
+  await seedPesanan(client);
   await seedRevenue(client);
   await client.end();
 }

@@ -11,6 +11,7 @@ import {
   Revenue,
   Customers,
   Produk,
+  PesananTableType,
   // CustomersTable,
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -468,5 +469,62 @@ export async function fetchFilteredProduk(
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch produk table.');
+  }
+}
+
+export async function fetchFilteredPesanan(query: string, currentPage: number) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  noStore(); // Assuming this is a function to disable caching
+
+  try {
+    const data = await sql<PesananTableType>`
+      SELECT
+          pesanan.id,
+          pesanan.nama,
+          pesanan.barang,
+          pesanan.harga,
+          pesanan.jumlah,
+          pesanan.keterangan,
+          pesanan.date,
+          pesanan.image_url
+          FROM pesanan
+      WHERE
+          pesanan.nama ILIKE ${`%${query}%`} OR 
+          pesanan.pesanan ILIKE ${`%${query}%`} 
+      GROUP BY
+          pesanan.id,
+          pesanan.nama,
+          pesanan.barang,
+          pesanan.harga,
+          pesanan.jumlah,
+          pesanan.keterangan,
+          pesanan.date,
+          pesanan.image_url
+      ORDER BY
+        pesanan.nama ASC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};
+    `;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch pesanan table.');
+  }
+}
+
+export async function fetchPesananPages(query: string) {
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM pesanan
+      WHERE pesanan.nama ILIKE ${`%${query}%`} OR
+      pesanan.barang ILIKE ${`%${query}%`}
+    `;
+    const totalCount = Number(count.rows[0].count) || 0;
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of pesanan.');
   }
 }

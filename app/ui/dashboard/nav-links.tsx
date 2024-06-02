@@ -29,8 +29,8 @@ const links = [
     href: '/dashboard/produk',
   },
   {
-    name: 'Revenue',
-    href: '/dashboard/revenue',
+    name: 'Pesanan',
+    href: '/dashboard/pesanan',
   }
 ];
  

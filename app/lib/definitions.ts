@@ -205,3 +205,14 @@ export type ProdukTableType = {
   // total_pending: number;
   // total_paid: number;
 };
+
+export type PesananTableType = {
+  id: string;
+  nama: string;
+  barang: string;
+  keterangan: string;
+  harga: number;
+  jumlah: number;
+  date: string;
+  image_url: string;
+}
