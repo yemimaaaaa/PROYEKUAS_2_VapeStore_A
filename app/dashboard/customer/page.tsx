@@ -3,7 +3,7 @@ import Search from '@/app/ui/search';
 import Table from '@/app/ui/customers/table';
 import { CreateCustomers } from '@/app/ui/customers/buttons';
 import { lusitana } from '@/app/ui/fonts';
-import { CustomersSkeleton } from '@/app/ui/skeletons';
+import { CustomersSkeleton, SearchCustomerSkeleton, CreateCustomerSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchCustomersPages } from '@/app/lib/data';
  
@@ -16,6 +16,7 @@ export default async function Page({
     page?: string;
   };
 }) {
+  await new Promise((resolve) => setTimeout(resolve, 500)) 
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await fetchCustomersPages(query);
@@ -26,8 +27,16 @@ export default async function Page({
         <h1 className={`${lusitana.className} text-2xl`}>Customers</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        {/* <Search placeholder="Search invoices..." />
+        <CreateInvoice />
+      </div> */}
+         <Suspense fallback= {<SearchCustomerSkeleton/>}>
         <Search placeholder="Search customers..." />
-        <CreateCustomers />
+        </Suspense>
+
+        <Suspense fallback={<CreateCustomerSkeleton />}>
+          <CreateCustomers/>
+        </Suspense>
       </div>
        <Suspense key={query + currentPage} fallback={<CustomersSkeleton />}>
         <Table query={query} currentPage={currentPage} />

@@ -382,3 +382,87 @@ export function CustomersSkeleton() {
   );
 }
 
+export function SearchPesananSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-5 w-5 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function CreatePesananSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center justify-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-6 w-20 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+//  export function JudulPesananSkeleton() {
+//   return (
+//     <div 
+//       className={`${shimmer} relative flex with full flex-col overflow-hidden md:col-span-4`} >
+//         <div className="mb-6 h-8 w-36 rounded-md bg-gray-200" />
+//         </div>
+//   );
+//  }
+//  export function TampilPesananSkeleton() {
+//   return (
+//     <div>
+//       <JudulPesananSkeleton />
+//       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+//         <SearchPesananSkeleton />
+//         <CreatePesananSkeleton />
+//         </div>
+//         <PesananTableSkeleton />
+//       </div>
+//   );
+//  }
+
+export function SearchInvoicesSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-5 w-5 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function CreateInvoicesSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center justify-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-6 w-20 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function SearchProdukSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-5 w-5 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function CreateProdukSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center justify-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-6 w-20 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function SearchCustomerSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-5 w-5 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function CreateCustomerSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center justify-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-6 w-20 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
