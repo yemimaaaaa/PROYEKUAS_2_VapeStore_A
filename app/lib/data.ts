@@ -12,6 +12,7 @@ import {
   Customers,
   Produk,
   PesananTableType,
+  ProdukForm,
   // CustomersTable,
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -526,5 +527,84 @@ export async function fetchPesananPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of pesanan.');
+  }
+}
+
+export async function fetchCustomers() {
+  try {
+    const data = await sql<CustomerField>`
+      SELECT
+        id,
+        nama,
+        no_telp, 
+        pesanan,
+        date, 
+        image_url
+      FROM customers
+      ORDER BY nama ASC
+    `;
+    const customers = data.rows;
+    return customers;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}
+
+export async function fetchInvoicesById(id: string) {
+  noStore();
+  try {
+    const data = await sql<InvoiceForm>`
+      SELECT
+        invoices.id,
+        invoices.customers_id,
+        invoices.total_harga,
+        invoices.status,
+        invoices.kuantitas
+      FROM invoices
+      WHERE invoices.id = ${id};
+    `;
+
+    const invoice = data.rows.map((invoice) => ({
+      ...invoice,
+      // Convert amount from cents to dollars
+      amount: invoice.total_harga / 100,
+    }));
+    
+    console.log(invoice); // Invoice is an empty array []
+    return invoice[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch invoice.');
+  }
+}
+
+export async function fetchProdukById(id: string) {
+  noStore();
+  try {
+    const data = await sql<ProdukForm>`
+      SELECT
+        produk.id,
+        produk.nama,
+        produk.kategori,
+        produk.harga,
+        produk.stok,
+        produk.date,
+        produk.image_url
+      FROM produk
+      WHERE produk.id = ${id};
+    `;
+
+    const produk = data.rows.map((produk) => ({
+      ...produk,
+      // Convert amount from cents to dollars
+      harga: produk.harga / 100,
+    }));
+    
+    console.log(produk); // Invoice is an empty array []
+    return produk[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch produk.');
   }
 }

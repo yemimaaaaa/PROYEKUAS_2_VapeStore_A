@@ -130,14 +130,22 @@ export type FormattedCustomersTable = {
 
 export type CustomerField = {
   id: string;
-  name: string;
+  nama: string;
+  // no_telp: string;
+};
+
+export type ProdukField = {
+  id: string;
+  nama: string;
+  // no_telp: string;
 };
 
 export type InvoiceForm = {
   id: string;
   customer_id: string;
-  amount: number;
+  total_harga: number;
   status: 'pending' | 'paid';
+  kuantitas: string;
 };
 // export type CustomersForm = {
 //   id: string;
@@ -148,15 +156,15 @@ export type InvoiceForm = {
 //   image_url: string;
 // }
 
-// export type ProdukForm = {
-//   id_produk: string;
-//   nama: string;
-//   kategori: string;
-//   harga: number;
-//   stok: number;
-//   date: string;
-//   image_url: string;
-// }
+export type ProdukForm = {
+  id_produk: string;
+  nama: string;
+  kategori: string;
+  harga: number;
+  stok: number;
+  date: string;
+  image_url: string;
+}
 
 // export type InvoicesForm = {
 

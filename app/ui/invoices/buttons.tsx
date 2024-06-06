@@ -17,7 +17,7 @@ export async function CreateInvoice() {
 export function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
-      href="/dashboard/invoices"
+    href={`/dashboard/invoices/${id}/edit`}
       className="rounded-md border p-2 hover:bg-fuchsia-200"
     >
       <PencilIcon className="w-5" />
