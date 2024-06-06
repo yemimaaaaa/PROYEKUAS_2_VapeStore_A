@@ -147,14 +147,15 @@ export type InvoiceForm = {
   status: 'pending' | 'paid';
   kuantitas: string;
 };
-// export type CustomersForm = {
-//   id: string;
-//   nama: string;
-//   no_telp: number;
-//   pesanan: string;
-//   date: string;
-//   image_url: string;
-// }
+
+export type CustomersForm = {
+  id: string;
+  nama: string;
+  no_telp: number;
+  pesanan: string;
+  // date: string;
+  image_url: string;
+}
 
 export type ProdukForm = {
   id_produk: string;

@@ -13,10 +13,11 @@ import {
   Produk,
   PesananTableType,
   ProdukForm,
+  CustomersForm,
   // CustomersTable,
 } from './definitions';
 import { formatCurrency } from './utils';
-import { unstable_noStore as noStore } from 'next/cache'; 
+import { unstable_noStore as noStore, unstable_noStore } from 'next/cache'; 
  
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -53,7 +54,7 @@ export async function fetchLatestInvoices() {
  
     const latestInvoices = data.rows.map((invoices) => ({
       ...invoices,
-      amount: formatCurrency(invoices.amount),
+      amount: formatCurrency(invoices.total_harga),
     }));
     return latestInvoices;
   } catch (error) {
@@ -376,7 +377,7 @@ export async function fetchCustomersPages(query: string) {
       SELECT COUNT(*)
       FROM customers
       WHERE customers.nama ILIKE ${`%${query}%`} OR
-            customers.no_telp ILIKE ${`%${query}%`}
+            customers.no_telp ILIKE ${`%${query}%`} 
     `;
     const totalCount = Number(count.rows[0].count) || 0;
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
@@ -388,33 +389,61 @@ export async function fetchCustomersPages(query: string) {
 }
 
 
-// // export async function fetchCustomersById(id: string) {
-// //   noStore();
-// //   try {
-// //     const data = await sql<CustomersForm>`
-// //       SELECT
-// //         customers.id,
-// //         customers.name,
-// //         customers.email,
-// //         customers.image_url
-// //       FROM customers
-// //       WHERE customers.id = ${id};
-// //     `;
+// export async function fetchCustomersById(id: string) {
+//   noStore();
+//   try {
+//     const data = await sql<CustomersForm>`
+//       SELECT
+//         customers.id,
+//         customers.nama,
+//         customers.no_telp,
+//         customers.pesanan,
+//         customers.image_url
+//       FROM customers
+//       WHERE customers.id = ${id};
+//     `;
  
-// //     const customers = data.rows.map((customers) => ({
-// //       ...customers,
-// //       // Convert amount from cents to dollars
-// //       amount: customers.amount / 100,
-// //       image_url: customers.image_url || 'default-image-url.jpg' 
-// //     }));
+//     const customers = data.rows.map((customers) => ({
+//       ...customers,
+//       // Convert amount from cents to dollars
+//       // // total_harga: customers.total_harga / 100,
+//       // image_url: customers.image_url || 'default-image-url.jpg' 
+//     }));
  
-// //     console.log(customers); // Invoice is an empty array []
-// //     return customers[0];
-// //   } catch (error) {
-// //     console.error('Database Error:', error);
-// //     throw new Error('Failed to fetch customer.');
-// //   }
-// // }
+//     console.log(customers); // Invoice is an empty array []
+//     return customers[0];
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch customer.');
+//   }
+// }
+
+export async function fetchCustomersById(id: string) {
+  unstable_noStore();
+  try {
+    // await new Promise((resolve) => setTimeout(resolve,5000));
+    const data = await sql<CustomersForm>`
+      SELECT
+        customers.id,
+        customers.nama,
+        customers.no_telp,
+        customers.pesanan,
+        customers.image_url
+      FROM customers
+      WHERE customers.id = ${id};
+    `;
+ 
+    const customer = data.rows.map((customer) => ({
+      ...customer,
+    }));
+ 
+    console.log(customer); // Invoice is an empty array []
+    return customer[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customer.');
+  }
+}
 
 export async function fetchProdukPages(query: string) {
   try {

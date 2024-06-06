@@ -7,7 +7,7 @@ import {
   CurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createProduk, createInvoice } from '@/app/lib/actions';
+import { createProduk } from '@/app/lib/actions';
 
 export default function Form({ produk }: { produk: ProdukField[] }) {
   return (
@@ -15,14 +15,15 @@ export default function Form({ produk }: { produk: ProdukField[] }) {
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
-          <label htmlFor="name" className="mb-2 block text-sm font-medium">
+          <label htmlFor="nama" className="mb-2 block text-sm font-medium">
             Nama
           </label>
           <div className="relative">
             <input
-              type='text'
-              id='customerId'
-              name='name'
+              id='nama'
+              name='nama'
+              type="string"
+              step="0.01"
               placeholder='Enter Your Name'
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               // defaultValue="Enter Your Name"
@@ -43,15 +44,16 @@ export default function Form({ produk }: { produk: ProdukField[] }) {
 
         {/*Customers Email */}
         <div className="mb-4">
-          <label htmlFor="no_telp" className="mb-2 block text-sm font-medium">
+          <label htmlFor="kategori" className="mb-2 block text-sm font-medium">
             Kategori
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="no_telp"
-                name="no_telp"
-                type="text"
+                id="kategori"
+                name="kategori"
+                type="string"
+                step="0.01"
                 placeholder="Enter Your Kategori"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
