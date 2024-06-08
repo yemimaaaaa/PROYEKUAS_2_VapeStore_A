@@ -17,7 +17,7 @@ export async function CreatePesanan() {
 export function UpdatePesanan({ id }: { id: string }) {
   return (
     <Link
-      href="/dashboard/order"
+    href={`/dashboard/pesanan/${id}/edit`}
       className="rounded-md border p-2 hover:bg-fuchsia-200"
     >
       <PencilIcon className="w-5" />

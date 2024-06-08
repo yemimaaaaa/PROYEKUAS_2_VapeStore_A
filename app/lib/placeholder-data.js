@@ -8,6 +8,16 @@ const users = [
     password: '123456',
   },
 ];
+// const lockedUser = [
+//   {
+//     id: '410544b2-1111-4271-9855-fec4b6a6442a',
+//   name: 'Dummy',
+//   username: "user_dummy",
+//   email: 'dummy@nextmail.com',
+//   password: "000000",
+//   locked: true // Status akun terkunci
+//   }
+// ];
 
 // const customers = [
 //   {
@@ -174,6 +184,7 @@ const customers = [
     pesanan: 'Device ',
     date: '2024-05-20',
     image_url: '/customers/lando noWIN.png',
+    gender: 'L',
   },
 {
     id: '3958dc9e-738f-4377-85e9-fec4b6a6442a',
@@ -182,6 +193,7 @@ const customers = [
     pesanan: 'Device & E-liquid & Atomizer',
     date: '2024-05-20',
     image_url: '/customers/wbb2.png',
+    gender: 'L',
   },
   {
     id: '3958dc9e-757f-4377-85e9-fec4b6a6442a',
@@ -190,6 +202,7 @@ const customers = [
     pesanan: 'Device & E-liquid ',
     date: '2024-05-20',
     image_url: '/customers/CUST 2.png',
+    gender: 'L',
   },
   {
     id: '3958dc9e-740f-4377-85e9-fec4b6a6442a',
@@ -198,6 +211,16 @@ const customers = [
     pesanan: 'Device & Atomizer',
     date: '2024-05-20',
     image_url: '/customers/MAX LOSE.png',
+    gender: 'L',
+  },
+  {
+    id: '3958dc9e-790f-4377-85e9-fec4b6a6442a',
+    nama: 'Reak SuperNova',
+    no_telp: '085912658866',
+    pesanan: 'Device & Atomizer',
+    date: '2024-05-20',
+    image_url: '/customers/carlos.png',
+    gender: 'P',
   },
 ];
 
@@ -375,6 +398,16 @@ const pesanan = [
   date: '2024-05-31', 
   keterangan: 'sedang diproses',
   image_url: '/customers/CUST 2.png',
+},
+{
+  id: '3958dc9e-006f-4377-85e9-fec4b6a6452a',
+  nama: 'Reak SuperNova',
+  harga: 550000,
+  barang: 'GEEKVAPE',
+  jumlah: 1,
+  date: '2024-05-31', 
+  keterangan: 'sedang diproses',
+  image_url: '/customers/carlos.png',
 },
 ];
   

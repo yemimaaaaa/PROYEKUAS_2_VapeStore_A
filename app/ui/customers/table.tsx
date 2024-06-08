@@ -53,10 +53,10 @@ export default async function CustomersTable({
                       </div>
                     </div>
                     <div className="flex w-full items-center justify-between border-b py-5">
-                      <div className="flex w-1/2 flex-col">
+                      {/* <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
                         <p className="font-medium">{customer.total_pending}</p>
-                      </div>
+                      </div> */}
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Paid</p>
                         <p className="font-medium">{customer.total_paid}</p>
@@ -90,11 +90,14 @@ export default async function CustomersTable({
                     <th scope="col" className="px-3 py-5 font-medium">
                       Total Invoices
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    {/* <th scope="col" className="px-3 py-5 font-medium">
                       Total Pending
-                    </th>
+                    </th> */}
                     <th scope="col" className="px-4 py-5 font-medium">
                       Total Paid
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Gender
                     </th>
                   </tr>
                 </thead>
@@ -126,11 +129,14 @@ export default async function CustomersTable({
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_invoices}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_pending}
-                      </td>
+                      </td> */}
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm ">
                         {customer.total_paid}
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm ">
+                        {customer.gender}
                       </td>
                       <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">

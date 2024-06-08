@@ -43,7 +43,7 @@ export default async function ProdukTableType({
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
-                          {produk.kategori}
+                          {produk.id}
                         </p>
                       </div>
                     </div>
@@ -72,6 +72,9 @@ export default async function ProdukTableType({
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                       Nama
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                      ProdukId
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
                       Kategori
@@ -111,6 +114,8 @@ export default async function ProdukTableType({
                           />
                           <p>{produk.nama}</p>
                         </div>
+                      </td><td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {produk.id}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {produk.kategori}

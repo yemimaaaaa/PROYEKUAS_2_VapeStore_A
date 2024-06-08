@@ -117,13 +117,15 @@ export async function fetchFilteredInvoices(
         customers.nama,
         customers.pesanan,
         customers.no_telp,
-        customers.image_url
+        customers.image_url,
+        customers.gender
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       WHERE
         customers.nama ILIKE ${`%${query}%`} OR
         customers.pesanan ILIKE ${`%${query}%`} OR
         customers.no_telp ILIKE ${`%${query}%`} OR
+        customers.gender ILIKE ${`%${query}%`} OR
         invoices.kuantitas ILIKE ${`%${query}%`} OR
         invoices.total_harga::text ILIKE ${`%${query}%`} OR
         invoices.date::text ILIKE ${`%${query}%`} OR
@@ -162,33 +164,6 @@ export async function fetchInvoicesPages(query: string) {
     throw new Error('Failed to fetch total number of invoices.');
   }
 }
- 
-// export async function fetchInvoiceById(id: string) {
-//   noStore();
-//   try {
-//     const data = await sql<InvoiceForm>`
-//       SELECT
-//         invoices.id,
-//         invoices.customer_id,
-//         invoices.amount,
-//         invoices.status
-//       FROM invoices
-//       WHERE invoices.id = ${id};
-//     `;
-
-//     const invoice = data.rows.map((invoice) => ({
-//       ...invoice,
-//       // Convert amount from cents to dollars
-//       amount: invoice.amount / 100,
-//     }));
-    
-//     console.log(invoice); // Invoice is an empty array []
-//     return invoice[0];
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch invoice.');
-//   }
-// }
 
 // // export async function fetchReservationsWithId(id: string) {
 // //   noStore();
@@ -258,22 +233,21 @@ export async function fetchFilteredCustomers(
       customers.pesanan,
       customers.date,
       customers.image_url,
+      customers.gender,
       COUNT(invoices.id) AS total_invoices,
-      SUM(CASE WHEN invoices.status = 'pending' THEN invoices.total_harga ELSE 0 END) AS total_pending,
       SUM(CASE WHEN invoices.status = 'paid' THEN invoices.total_harga ELSE 0 END) AS total_paid
     FROM customers
     LEFT JOIN invoices ON customers.id = invoices.customer_id
     WHERE
       customers.nama ILIKE ${`%${query}%`} OR
       customers.no_telp ILIKE ${`%${query}%`}
-    GROUP BY customers.id, customers.nama, customers.no_telp, customers.pesanan, customers.date, customers.image_url
+    GROUP BY customers.id, customers.nama, customers.no_telp, customers.pesanan, customers.date, customers.image_url, customers.gender
     ORDER BY customers.nama ASC
     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
  
     const customers = data.rows.map((customer) => ({
       ...customer,
-      total_pending: formatCurrency(customer.total_pending),
       total_paid: formatCurrency(customer.total_paid),
     }));
  
@@ -294,83 +268,6 @@ export async function fetchFilteredCustomers(
 //   }
 // }
  
-// // export async function fetchLatestReservations() {
-// //   noStore()
-// //   try {
-// //     const data = await sql<LatestReservationsRaw>`
-// //       SELECT reservations.amount, customers.name, customers.image_url, customers.email, reservations.id
-// //       FROM reservations
-// //       JOIN customers ON reservations.customer_id = customers.id
-// //       ORDER BY reservations.date DESC
-// //       LIMIT 1`;
- 
-// //     const latestReservations = data.rows.map((reservations) => ({
-// //       ...reservations,
-// //       amount: formatCurrency(reservations.amount),
-// //     }));
-// //     return latestReservations;
-// //   } catch (error) {
-// //     console.error('Database Error:', error);
-// //     throw new Error('Failed to fetch the latest reservations.');
-// //   }
-// // }
- 
-// // export async function fetchFilteredReservations(
-// //   query: string,
-// //   currentPage: number,
-// // ) {
-// //   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-// //   noStore()
-// //   try {
-// //     const reservations = await sql<ReservationsTable>`
-// //       SELECT
-// //         reservations.id,
-// //         reservations.amount,
-// //         reservations.date,
-// //         reservations.status,
-// //         customers.name,
-// //         customers.email,
-// //         customers.image_url
-// //       FROM reservations
-// //       JOIN customers ON reservations.customer_id = customers.id
-// //       WHERE
-// //         customers.name ILIKE ${`%${query}%`} OR
-// //         customers.email ILIKE ${`%${query}%`} OR
-// //         reservations.amount::text ILIKE ${`%${query}%`} OR
-// //         reservations.date::text ILIKE ${`%${query}%`} OR
-// //         reservations.status ILIKE ${`%${query}%`}
-// //       ORDER BY reservations.date DESC
-// //       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-// //     `;
- 
-// //     return reservations.rows;
-// //   } catch (error) {
-// //     console.error('Database Error:', error);
-// //     throw new Error('Failed to fetch reservations.');
-// //   }
-// // }
- 
-// // export async function fetchReservationsPages(query: string) {
-// //   try {
-// //     const count = await sql`SELECT COUNT(*)
-// //     FROM reservations
-// //     JOIN customers ON reservations.customer_id = customers.id
-// //     WHERE
-// //       customers.name ILIKE ${`%${query}%`} OR
-// //       customers.email ILIKE ${`%${query}%`} OR
-// //       reservations.amount::text ILIKE ${`%${query}%`} OR
-// //       reservations.date::text ILIKE ${`%${query}%`} OR
-// //       reservations.status ILIKE ${`%${query}%`}
-// //   `;
- 
-// //     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-// //     return totalPages;
-// //   } catch (error) {
-// //     console.error('Database Error:', error);
-// //     throw new Error('Failed to fetch total number of reservations.');
-// //   }
-// // }
-
 export async function fetchCustomersPages(query: string) {
   try {
     const count = await sql`
@@ -428,7 +325,8 @@ export async function fetchCustomersById(id: string) {
         customers.nama,
         customers.no_telp,
         customers.pesanan,
-        customers.image_url
+        customers.image_url,
+        customers.gender
       FROM customers
       WHERE customers.id = ${id};
     `;
@@ -568,7 +466,8 @@ export async function fetchCustomers() {
         no_telp, 
         pesanan,
         date, 
-        image_url
+        image_url,
+        gender,
       FROM customers
       ORDER BY nama ASC
     `;
@@ -580,16 +479,47 @@ export async function fetchCustomers() {
   }
 }
 
+// export async function fetchInvoicesById(id: string) {
+//   noStore();
+//   try {
+//     const data = await sql<InvoiceForm>`
+//       SELECT
+//         invoices.id,
+//         invoices.customers_id,
+//         invoices.total_harga,
+//         invoices.status,
+//         invoices.kuantitas,
+//         invoices.date,
+//         invoices.image_url
+//       FROM invoices
+//       WHERE invoices.id = ${id};
+//     `;
+
+//     const invoice = data.rows.map((invoice) => ({
+//       ...invoice,
+//       // Convert amount from cents to dollars
+//       amount: invoice.total_harga / 100,
+//     }));
+    
+//     console.log(invoice); // Invoice is an empty array []
+//     return invoice[0];
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch invoice.');
+//   }
+// }
+
 export async function fetchInvoicesById(id: string) {
   noStore();
   try {
     const data = await sql<InvoiceForm>`
       SELECT
         invoices.id,
-        invoices.customers_id,
+        invoices.customer_id,
         invoices.total_harga,
         invoices.status,
-        invoices.kuantitas
+        invoices.kuantitas,
+        invoices.image_url
       FROM invoices
       WHERE invoices.id = ${id};
     `;
@@ -597,9 +527,9 @@ export async function fetchInvoicesById(id: string) {
     const invoice = data.rows.map((invoice) => ({
       ...invoice,
       // Convert amount from cents to dollars
-      amount: invoice.total_harga / 100,
+      total_harga: invoice.total_harga / 100,
     }));
-    
+    -
     console.log(invoice); // Invoice is an empty array []
     return invoice[0];
   } catch (error) {
@@ -607,7 +537,6 @@ export async function fetchInvoicesById(id: string) {
     throw new Error('Failed to fetch invoice.');
   }
 }
-
 export async function fetchProdukById(id: string) {
   noStore();
   try {

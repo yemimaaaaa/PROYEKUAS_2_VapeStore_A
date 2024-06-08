@@ -19,25 +19,25 @@ export default function Form({ produk }: { produk: ProdukField[] }) {
             Nama
           </label>
           <div className="relative">
-            <input
+            <select
               id='nama'
               name='nama'
-              type="string"
-              step="0.01"
+              // type="string"
+              // step="0.01"
               placeholder='Enter Your Name'
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               // defaultValue="Enter Your Name"
             >
-              {/* <option value="" disabled>
-                Select a customer
+              <option value="" disabled>
+                Select a produk
               </option>
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option> */}
-              {/* ))}
-            </select> */}
-            </input>
+              {produk.map((produk) => (
+                <option key={produk.nama} value={produk.nama}>
+                  {produk.nama}
+                </option>
+              ))}
+            </select>
+            {/* </input> */}
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
         </div>
@@ -49,14 +49,32 @@ export default function Form({ produk }: { produk: ProdukField[] }) {
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+            <select
+              id='kategori'
+              name='kategori'
+              // type="string"
+              // step="0.01"
+              placeholder='Enter Your Category'
+              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              // defaultValue="Enter Your Name"
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              {produk.map((produk) => (
+                <option key={produk.kategori} value={produk.kategori}>
+                  {produk.kategori}
+                </option>
+              ))}
+            </select>
+              {/* <input
                 id="kategori"
                 name="kategori"
                 type="string"
                 step="0.01"
                 placeholder="Enter Your Kategori"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
+              /> */}
               <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>

@@ -18,8 +18,8 @@ export async function CreateProduk() {
 export function UpdateProduk({ id }: { id: string }) {
   return (
     <Link
-      href="/dashboard/produk"
-      className="rounded-md border p-2 hover:bg-fuchsia-200"
+    href={`/dashboard/produk/${id}/edit`}
+      className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
     </Link>

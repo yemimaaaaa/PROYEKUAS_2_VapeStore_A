@@ -16,6 +16,13 @@ export type User = {
   password: string;
 };
 
+// export type LockedUser = {
+//   name: string;
+//   username: string;
+//   password: string;
+//   locked: string;
+// };
+
 export type Customers = {
   id: string;
   nama: string;
@@ -23,6 +30,7 @@ export type Customers = {
   pesanan: string;
   date: string;
   image_url: string;
+  gender: string;
 }
 
 export type Produk = {
@@ -57,36 +65,10 @@ export type LatestInvoice = {
   image_url: string;
 }
 
-// export type Customer = {
-//   id: string;
-//   name: string;
-//   email: string;
-//   image_url: string;
-// };
-
-// export type Invoice = {
-//   id: string;
-//   customer_id: string;
-//   amount: number;
-//   date: string;
-//   // In TypeScript, this is called a string union type.
-//   // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-//   status: 'pending' | 'paid';
-// };
-
 export type Revenue = {
   month: string;
   revenue: number;
 };
-
-// export type LatestInvoice = {
-//   id: string;
-//   name: string;
-//   image_url: string;
-//   email: string;
-//   amount: string;
-// };
-
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
   amount: number;
@@ -113,8 +95,8 @@ export type CustomersTableType = {
   date: string;
   image_url: string;
   total_invoices: number;
-  total_pending: number;
   total_paid: number;
+  gender: string;
 };
 
 export type FormattedCustomersTable = {
@@ -124,19 +106,22 @@ export type FormattedCustomersTable = {
   pesanan: string;
   image_url: string;
   total_invoices: number;
-  total_pending: string;
   total_paid: string;
+  gender: string;
 };
 
 export type CustomerField = {
   id: string;
   nama: string;
+  pesanan: string;
   // no_telp: string;
 };
 
 export type ProdukField = {
   id: string;
   nama: string;
+  produk: string;
+  kategori: string;
   // no_telp: string;
 };
 
@@ -155,6 +140,7 @@ export type CustomersForm = {
   pesanan: string;
   // date: string;
   image_url: string;
+  gender: string;
 }
 
 export type ProdukForm = {
@@ -166,27 +152,6 @@ export type ProdukForm = {
   date: string;
   image_url: string;
 }
-
-// export type InvoicesForm = {
-
-//   customer_id: string;
-//   total_harga: number;
-//   status: string;
-//   kuantitas: number;
-//   date: string;
-//   image_url: string;
-// }
-
-
-// export type RevenueForm = {
-//   kode_revenue: string;
-//   invoices_id: string;
-//   jenis_laporan: string;
-//   metode_pembayaran: string;
-//   date: string;
-//   image_url: string;
-// }
-//o
 
 // export type ProdukTableType = {
 //   id_produk: string;

@@ -6,6 +6,7 @@ const {
   revenue,
   pesanan,
   users,
+  lockedUser,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
@@ -47,6 +48,45 @@ async function seedUsers(client) {
     throw error;
   }
 }
+// async function seedlockedUser(client) {
+//   try {
+//     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+//     // Create the "users" table if it doesn't exist
+//     const createTable = await client.sql`
+//       CREATE TABLE IF NOT EXISTS  (
+//         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//         name VARCHAR(255) NOT NULL,
+//         email TEXT NOT NULL UNIQUE,
+//         password TEXT NOT NULL,
+//         locked TEXT NOT NULL
+//       );
+//     `;
+
+//     console.log(`Created "lockedUser" table`);
+
+//     // Insert data into the "users" table
+//     const insertedsers = await Promise.all(
+//       users.map(async (user) => {
+//         const hashedPassword = await bcrypt.hash(user.password, 10);
+//         return client.sql`
+//         INSERT INTO users (id, name, email, password)
+//         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+//         ON CONFLICT (id) DO NOTHING;
+//       `;
+//       }),
+//     );
+
+//     console.log(`Seeded ${insertedUsers.length} users`);
+
+//     return {
+//       createTable,
+//       users: insertedUsers,
+//     };
+//   } catch (error) {
+//     console.error('Error seeding users:', error);
+//     throw error;
+//   }
+// }
 
 async function seedCustomers(client) {
   try {
@@ -60,7 +100,8 @@ async function seedCustomers(client) {
         no_telp VARCHAR(255) NOT NULL,
         pesanan VARCHAR(255) NOT NULL,
         date DATE NOT NULL,
-        image_url VARCHAR(255) NOT NULL
+        image_url VARCHAR(255) NOT NULL,
+        gender VARCHAR(20) NOT NULL
       );
     `;
 
@@ -70,8 +111,8 @@ async function seedCustomers(client) {
     const insertedCustomers = await Promise.all(
       customers.map(
         (customer) => client.sql`
-        INSERT INTO customers (id, nama, no_telp, pesanan, date, image_url)
-        VALUES (${customer.id}, ${customer.nama}, ${customer.no_telp}, ${customer.pesanan}, ${customer.date}, ${customer.image_url})
+        INSERT INTO customers (id, nama, no_telp, pesanan, date, image_url, gender)
+        VALUES (${customer.id}, ${customer.nama}, ${customer.no_telp}, ${customer.pesanan}, ${customer.date}, ${customer.image_url}, ${customer.gender})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
