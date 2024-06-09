@@ -113,8 +113,11 @@ export type FormattedCustomersTable = {
 export type CustomerField = {
   id: string;
   nama: string;
+  no_telp: string;
   pesanan: string;
-  // no_telp: string;
+  date: string;
+  image_url: string;
+  gender: string;
 };
 
 export type ProdukField = {

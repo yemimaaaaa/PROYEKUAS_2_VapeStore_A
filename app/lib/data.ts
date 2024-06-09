@@ -478,6 +478,30 @@ export async function fetchCustomers() {
     throw new Error('Failed to fetch all customers.');
   }
 }
+// async function fetchCustomers() {
+//   try {
+//     const results = await sql<CustomerField[]>`
+//       SELECT
+//         id,
+//         nama,
+//         no_telp AS "noTelp",
+//         pesanan AS order,
+//         date,
+//         image_url AS "imageUrl",
+//         gender
+//       FROM customers
+//       ORDER BY nama ASC
+//     `;
+
+//     const customers = results.rows; // Extract customers from the results
+//     return customers; 
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch customers.'); // More concise error message
+//   }
+// }
+
+// export default fetchCustomers; // Export as the default function
 
 // export async function fetchInvoicesById(id: string) {
 //   noStore();

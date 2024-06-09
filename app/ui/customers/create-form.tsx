@@ -21,7 +21,8 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             Nama
           </label>
           <div className="relative">
-            <select
+            <input
+            type="text"
               id="nama"
               name="nama"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -33,16 +34,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             // className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             // defaultValue="Enter Your Name"
             >
-              <option value="" disabled>
-                Select a customer
-              </option>
-              {customers.map((customer) => (
-                <option key={customer.nama} value={customer.nama}>
-                  {customer.nama}
-                </option>
-              ))}
-            </select>
-            {/* </input> */}
+            </input>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
         </div>

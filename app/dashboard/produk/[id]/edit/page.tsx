@@ -30,7 +30,6 @@ import Form from '@/app/ui/produk/edit-form';
 import Breadcrumbs from '@/app/ui/produk/breadcrumbs';
 import { fetchProdukById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-// Rename the component to match the export (and its likely usage)
 import EditProdukForm from '@/app/ui/produk/edit-form'; 
 
 export default async function EditProdukPage({ params }: { params: { id: string } }) {
@@ -60,7 +59,7 @@ export default async function EditProdukPage({ params }: { params: { id: string 
           },
         ]}
       />
-      <EditProdukForm produk={produk} customer={customers} /> 
+      <Form produk={produk} customer={customers} /> 
     </main>
   );
 }
