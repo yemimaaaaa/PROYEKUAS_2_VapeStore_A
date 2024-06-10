@@ -41,6 +41,7 @@ export type Produk = {
   stok: number;
   date: string;
   image_url: string;
+  garansi: string;
 }
 
 export type Invoices = {
@@ -123,9 +124,13 @@ export type CustomerField = {
 export type ProdukField = {
   id: string;
   nama: string;
-  produk: string;
-  kategori: string;
   // no_telp: string;
+  kategori: string;
+  harga: number;
+  stok: number;
+  date: string;
+  image_url: string;
+  garansi: string;
 };
 
 export type InvoiceForm = {
@@ -147,13 +152,15 @@ export type CustomersForm = {
 }
 
 export type ProdukForm = {
-  id_produk: string;
+  // id_produk: string;
+  id: string;
   nama: string;
   kategori: string;
   harga: number;
   stok: number;
   date: string;
   image_url: string;
+  garansi: string;
 }
 
 // export type ProdukTableType = {
@@ -178,6 +185,7 @@ export type ProdukTableType = {
   stok: number;
   date: string;
   image_url: string;
+  garansi: string;
   // total_invoices: number;
   // total_pending: number;
   // total_paid: number;
@@ -185,11 +193,22 @@ export type ProdukTableType = {
 
 export type PesananTableType = {
   id: string;
-  nama: string;
+  customer_id: string;
   harga: number;
   barang: string;
   jumlah: number;
   date: string;
-  keterangan: string;
+  keterangan: 'sedang diproses' | 'done';
   image_url: string;
+}
+
+export type PesananForm = {
+  id: string;
+  customer_id: string;
+  harga: number;
+  barang: string;
+  jumlah: number;
+  date: string;
+  keterangan: 'sedang diproses' | 'done';
+  image_url: string;
 }

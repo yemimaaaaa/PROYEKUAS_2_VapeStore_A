@@ -14,8 +14,8 @@ const FormSchema = z.object({
   total_harga: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
   status: z.enum(['pending', 'paid'], {invalid_type_error: 'Please select an invoice status.',}),
   kuantitas: z.string({invalid_type_error: 'Please add kuantitas. ',}),
-  // image_url: z.string(),
-  // date: z.string(),
+  image_url: z.string(),
+  date: z.string(),
 });
 
 const FormSchema2 = z.object({
@@ -36,7 +36,18 @@ const FormSchema3 = z.object({
   stok: z.string(),
   date: z.string(),
   image_url: z.string(),
+  garansi: z.enum(['No', 'Yes'], {invalid_type_error: 'Please Select,',}),
 });
+
+// const FormSchema4 = z.object({
+//   id: z.string(),
+//   customerId :z.string(),
+//   barang: z.string(),
+//   harga: z.coerce.number(),
+//   jumlah: z.coerce.number(),
+//   keterangan: z.enum(["sedang diproses", "done"]),
+//   image_url: z.string().optional() // Image is optional
+// });
 
 const FormSchema4 = z.object({
   id: z.string(),
@@ -44,9 +55,17 @@ const FormSchema4 = z.object({
   barang: z.string(),
   harga: z.coerce.number(),
   jumlah: z.coerce.number(),
-  keterangan: z.enum(["sedang diproses", "done"]),
-  image_url: z.string().optional() // Image is optional
+  keterangan: z.enum(['sedang diproses', 'done']),
+  date: z.string(),
 });
+
+const FormSchema5 = z.object({
+  id: z.string(),
+  customerId :z.string(),
+  harga: z.coerce.number(),
+  keterangan: z.enum(['sedang diproses', 'done']),
+});
+
 
 export type State = {
   errors?: {
@@ -57,31 +76,38 @@ export type State = {
   message?: string | null;
 };
  
+
+
+
+
+
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateProduk = FormSchema3.omit({ id: true, date: true });
-const UpdateProduk = FormSchema3.omit({ id: true });
+const UpdateProduk = FormSchema3.omit({ id: true, date: true });
 const CreateCustomers = FormSchema2.omit({ id: true, date: true });
 const UpdateCustomers = FormSchema2.omit({ id: true });
 const CreatePesanan = FormSchema4.omit({ id: true, date: true});
-const UpdatePesanan = FormSchema4.omit({ id: true, date: true});
+const UpdatePesanan = FormSchema5.omit({ id: true, date: true});
+// const CreatePesanan = FormSchema4.omit({ id: true, date: true});
+// const UpdatePesanan = FormSchema4.omit({ id: true, date: true});
 
 export async function createInvoice(formData: FormData) {
-  // const img = formData.get('image');
-  // console.log(img);
+  const img = formData.get('image');
+  console.log(img);
 
-  // let fileName = '';
-  // if (img instanceof File) {
-  //   fileName = '/customers/' + img.name;
-  //   console.log('Image uploaded:', fileName);
-  // };
+  let fileName = '';
+  if (img instanceof File) {
+    fileName = '/customers/' + img.name;
+    console.log('Image uploaded:', fileName);
+  };
 
-  const { customerId, total_harga, status, kuantitas,} = CreateInvoice.parse({
+  const { customerId, total_harga, status, kuantitas, image_url} = CreateInvoice.parse({
     customerId: formData.get('customerId'),
     total_harga: formData.get('total_harga'),
     status: formData.get('status'),
     kuantitas: formData.get('kuantitas'),
-    // image_url: fileName,
+    image_url: fileName
   });
 
   const total_hargaInCents = total_harga * 100;
@@ -89,8 +115,8 @@ export async function createInvoice(formData: FormData) {
 
   try {
     await sql`
-        INSERT INTO invoices (customer_id, total_harga, status, date, kuantitas)
-        VALUES (${customerId}, ${total_hargaInCents}, ${status}, ${date}, ${kuantitas}})
+        INSERT INTO invoices (customer_id, total_harga, status, date, kuantitas, image_url)
+        VALUES (${customerId}, ${total_hargaInCents}, ${status}, ${date}, ${kuantitas}, ${image_url}})
       `;
   } catch (error) {
     return {
@@ -103,11 +129,20 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function updateInvoice(id: string, formData: FormData) {
-  const { customerId, total_harga, status, kuantitas } = UpdateInvoice.parse({
+  const image = formData.get('image');
+  console.log(image);
+ 
+  let fileName = '';
+  if (image instanceof File) {
+    fileName = '/customers/' + image.name;
+    console.log('Image uploaded:', fileName);
+  };
+  const { customerId, total_harga, status, kuantitas, image_url } = UpdateInvoice.parse({
     customerId: formData.get('customerId'),
     total_harga: formData.get('total_harga'),
     status: formData.get('status'),
     kuantitas: formData.get('kuantitas'),
+    image_url: fileName
   });
 
   const total_hargaInCents = total_harga * 100;
@@ -115,7 +150,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   try {
     await sql`
           UPDATE invoices
-          SET customer_id = ${customerId}, total_harga = ${total_hargaInCents}, status = ${status}, kuantitas = ${kuantitas}
+          SET customer_id = ${customerId}, total_harga = ${total_hargaInCents}, status = ${status}, kuantitas = ${kuantitas}, image_url = ${fileName}
           WHERE id = ${id}
         `;
   } catch (error) {
@@ -238,21 +273,22 @@ export async function createProduk(formData: FormData) {
     console.log('Image uploaded:', fileName);
   };
 
-  const { nama, kategori, harga, stok, image_url } = CreateProduk.parse({
+  const { nama, kategori, harga, stok, image_url, garansi } = CreateProduk.parse({
     nama: formData.get('nama'),
     kategori: formData.get('kategori'),
     harga: formData.get('harga'),
     stok: formData.get('stok'),
     // date: formData.get('date'),
     image_url: fileName,
+    garansi: formData.get('garansi'),
   });
 
   const date = new Date().toISOString().split('T')[0];
 
   try {
     await sql`
-        INSERT INTO produk (nama, kategori, harga, stok, date, image_url)
-        VALUES (${nama}, ${kategori}, ${harga}, ${stok}, ${date}, ${image_url})
+        INSERT INTO produk (nama, kategori, harga, stok, date, image_url, garansi)
+        VALUES (${nama}, ${kategori}, ${harga}, ${stok}, ${date}, ${image_url}, ${garansi})
       `;
   } catch (error) {
     return {
@@ -274,22 +310,23 @@ export async function updateProduk(id: string, formData: FormData) {
     console.log('Image uploaded:', fileName);
   };
 
-  const { nama, kategori, harga, stok, image_url} = UpdateProduk.parse({
+  const { nama, kategori, harga, stok, image_url, garansi} = UpdateProduk.parse({
     nama: formData.get('nama'),
     kategori: formData.get('kategori'),
     harga: formData.get('harga'),
     stok: formData.get('stok'),
     image_url: fileName,
+    garansi: formData.get('garansi'),
   });
  
-  const updateFields = { nama, kategori, harga, stok, image_url };
+  const updateFields = { nama, kategori, harga, stok, image_url, garansi};
   if (fileName) {
     updateFields.image_url = fileName;
   }
   try {
     await sql`
     UPDATE produk
-    SET nama= ${nama}, kategori=${kategori}, harga = ${harga}, stok = ${stok}, image_url = ${fileName}
+    SET nama= ${nama}, kategori=${kategori}, harga = ${harga}, stok = ${stok}, image_url = ${fileName}, garansi = ${garansi}
     WHERE id = ${id}
   `;
   } catch (error) {
@@ -300,7 +337,7 @@ export async function updateProduk(id: string, formData: FormData) {
 }
 
 export async function deleteProduk(id: string) {
-  throw new Error('Failed to Delete Customers');
+  throw new Error('Failed to Delete Produk');
   try {
     await sql`DELETE FROM produk WHERE id = ${id}`;
     revalidatePath('/dashboard/produk');
@@ -310,41 +347,126 @@ export async function deleteProduk(id: string) {
   }
 }
 
-export async function createPesanan(formData: FormData) {
-  // noStore(); // Disable caching for this action
-  const img = formData.get('image');
-  console.log(img);
+//PESANAN
 
-  let fileName = '';
-  if (img instanceof File) {
-    fileName = '/customers/' + img.name;
-    console.log('Image uploaded:', fileName);
-  };
-  const { customerId, barang, harga, jumlah, keterangan, image_url } = CreatePesanan.parse({
+export async function createPesanan(formData: FormData) {
+  // const img = formData.get('image');
+  // console.log(img);
+
+  // let fileName = '';
+  // if (img instanceof File) {
+  //   fileName = '/pesanan/' + img.name;
+  //   console.log('Image uploaded:', fileName);
+  // };
+
+  const { customerId, barang, harga, jumlah, keterangan } = CreatePesanan.parse({
     customerId: formData.get('customerId'),
     barang: formData.get('barang'),
     harga: formData.get('harga'),
     jumlah: formData.get('jumlah'),
     keterangan: formData.get('keterangan'),
-    image_url: fileName,
   });
 
   const date = new Date().toISOString().split('T')[0];
 
   try {
     await sql`
-        INSERT INTO produk ( customerId, barang, harga, jumlah, keterangan, image_url, date)
-        VALUES (${customerId}, ${barang}, ${harga}, ${jumlah}, ${keterangan}, ${date}, ${image_url})
+        INSERT INTO pesanan (customer_id, barang, harga, jumlah, keterangan, date)
+        VALUES (${customerId}, ${barang}, ${harga}, ${jumlah}, ${keterangan}, ${date})
       `;
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Create Produk.',
+      message: 'Database Error: Failed to Create Pesanan.',
     };
   }
 
   revalidatePath('/dashboard/pesanan');
   redirect('/dashboard/pesanan');
 }
+
+export async function updatePesanan(id: string, formData: FormData) {
+  // const img = formData.get('image');
+  // console.log(img);
+
+  // let fileName = '';
+  // if (img instanceof File) {
+  //   fileName = '/pesanan/' + img.name;
+  //   console.log('Image uploaded:', fileName);
+  // };
+  const { customerId, harga, keterangan } = UpdatePesanan.parse({
+    customerId: formData.get('customerId'),
+    harga: formData.get('harga'),
+    keterangan: formData.get('keterangan'),
+    // image_url: fileName,
+  });
+
+
+  const updateFields = { customerId, harga, keterangan };
+  // if (fileName) {
+  //   updateFields.image_url = fileName;
+  // }
+  try {
+    await sql`
+        UPDATE pesanan
+        SET customer_id = ${customerId}, harga = ${harga}, keterangan = ${keterangan}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Pesanan.' };
+  }
+
+  revalidatePath('/dashboard/pesanan');
+  redirect('/dashboard/pesanan');
+}
+
+export async function deletePesanan(id: string) {
+  // throw new Error('Failed to Delete Pesanan');
+  try {
+    await sql`DELETE FROM pesanan WHERE id = ${id}`;
+    revalidatePath('/dashboard/pesanan');
+    return { message: 'Deleted Pesanan.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Pesanan.' };
+  }
+}
+
+
+// export async function createPesanan(formData: FormData) {
+//   // noStore(); // Disable caching for this action
+//   const img = formData.get('image');
+//   console.log(img);
+
+//   let fileName = '';
+//   if (img instanceof File) {
+//     fileName = '/customers/' + img.name;
+//     console.log('Image uploaded:', fileName);
+//   };
+//   const { customerId, barang, harga, jumlah, keterangan, image_url } = CreatePesanan.parse({
+//     customerId: formData.get('customerId'),
+//     barang: formData.get('barang'),
+//     harga: formData.get('harga'),
+//     jumlah: formData.get('jumlah'),
+//     keterangan: formData.get('keterangan'),
+//     image_url: fileName,
+//   });
+
+//   const date = new Date().toISOString().split('T')[0];
+
+//   try {
+//     await sql`
+//         INSERT INTO produk ( customerId, barang, harga, jumlah, keterangan, image_url, date)
+//         VALUES (${customerId}, ${barang}, ${harga}, ${jumlah}, ${keterangan}, ${date}, ${image_url})
+//       `;
+//   } catch (error) {
+//     return {
+//       message: 'Database Error: Failed to Create Produk.',
+//     };
+//   }
+
+//   revalidatePath('/dashboard/pesanan');
+//   redirect('/dashboard/pesanan');
+// }
+
 // export async function updatePesanan(id: string, formData: FormData) {
 //   const img = formData.get('image');
 //   console.log(img);
@@ -382,13 +504,13 @@ export async function createPesanan(formData: FormData) {
 //   redirect('/dashboard/pesanan');
 // }
 
-export async function deletePesanan(id: string) {
-  throw new Error('Failed to Delete Pesanan');
-  try {
-    await sql`DELETE FROM pesanan WHERE id = ${id}`;
-    revalidatePath('/dashboard/pesanan');
-    return { message: 'Deleted Pesanan.' };
-  } catch (error) {
-    return { message: 'Database Error: Failed to Delete Pesanan.' };
-  }
-}
+// export async function deletePesanan(id: string) {
+//   throw new Error('Failed to Delete Pesanan');
+//   try {
+//     await sql`DELETE FROM pesanan WHERE id = ${id}`;
+//     revalidatePath('/dashboard/pesanan');
+//     return { message: 'Deleted Pesanan.' };
+//   } catch (error) {
+//     return { message: 'Database Error: Failed to Delete Pesanan.' };
+//   }
+// }

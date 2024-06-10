@@ -1,20 +1,18 @@
 import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
-import { fetchInvoicesById, fetchCustomers } from '@/app/lib/data'; // Sesuaikan nama fungsi fetch
+import { fetchInvoicesById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-
-export default async function EditInvoicePage({ params }: { params: { id: string } }) {
-  const id = params.id;
-  // Mengambil data invoice dan customers secara paralel
-  const [invoice, customers] = await Promise.all([
-    fetchInvoicesById(id), // Pastikan nama fungsi sesuai dengan implementasi Anda
-    fetchCustomers(),
-  ]);
-
-  if (!invoice) {
-    notFound(); // Jika invoice tidak ditemukan, alihkan ke halaman 404
-  }
-
+ 
+ 
+export default async function Page({ params }: { params: { id: string } }) {
+    const id = params.id;
+    const [invoice, customers] = await Promise.all([
+        fetchInvoicesById(id),
+        fetchCustomers(),
+      ]);
+      if (!invoice) {
+        notFound();
+      }
   return (
     <main>
       <Breadcrumbs
@@ -22,7 +20,7 @@ export default async function EditInvoicePage({ params }: { params: { id: string
           { label: 'Invoices', href: '/dashboard/invoices' },
           {
             label: 'Edit Invoice',
-            href: `/dashboard/invoices/${id}/edit`, // Hindari hardcode ID
+            href: `/dashboard/invoices/${id}/edit`,
             active: true,
           },
         ]}

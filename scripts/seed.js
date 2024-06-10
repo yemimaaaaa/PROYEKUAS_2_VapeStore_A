@@ -142,7 +142,8 @@ async function seedProduk(client) {
         harga INT NOT NULL,
         stok INT NOT NULL,
         date DATE NOT NULL,
-        image_url VARCHAR(255) DEFAULT 'default_image_url'
+        image_url VARCHAR(255) DEFAULT 'default_image_url',
+        garansi VARCHAR(20) NOT NULL
       );
     `;
 
@@ -152,8 +153,8 @@ async function seedProduk(client) {
     const insertedProduk = await Promise.all(
       produk.map(
         (produk) => client.sql`
-        INSERT INTO produk (id, nama, kategori, harga, stok, date, image_url)
-        VALUES (${produk.id}, ${produk.nama}, ${produk.kategori}, ${produk.harga}, ${produk.stok}, ${produk.date}, ${produk.image_url || 'default_image_url'})
+        INSERT INTO produk (id, nama, kategori, harga, stok, date, image_url, garansi)
+        VALUES (${produk.id}, ${produk.nama}, ${produk.kategori}, ${produk.harga}, ${produk.stok}, ${produk.date}, ${produk.image_url || 'default_image_url'}, ${produk.garansi})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
@@ -213,6 +214,48 @@ async function seedInvoices(client) {
   }
 }
 
+// async function seedPesanan(client) {
+//   try {
+//     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+//     // Create the "pesanan" table if it doesn't exist
+//     const createTable = await client.sql`
+//       CREATE TABLE IF NOT EXISTS pesanan (
+//         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//         nama VARCHAR(255) NOT NULL,
+//         harga INT NOT NULL,
+//         barang VARCHAR(255) NOT NULL,
+//         jumlah INT NOT NULL,
+//         date DATE NOT NULL,
+//         keterangan VARCHAR(255) NOT NULL,
+//         image_url VARCHAR(255) NOT NULL
+//       );
+//     `;
+//     console.log(`Created "pesanan" table`);
+
+//     // Insert data into the "pesanan" table
+//     const insertedPesanan = await Promise.all(
+//       pesanan.map(
+//         (pesanan) => client.sql`
+//         INSERT INTO pesanan (id, nama, harga, barang, jumlah, date, keterangan, image_url)
+//         VALUES (${pesanan.id}, ${pesanan.nama}, ${pesanan.harga}, ${pesanan.barang}, ${pesanan.jumlah}, ${pesanan.date}, ${pesanan.keterangan}, ${pesanan.image_url || 'default_image_url'})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//       ),
+//     );
+
+//     console.log(`Seeded ${insertedPesanan.length} pesanan`);
+
+//     return {
+//       createTable,
+//       pesanan: insertedPesanan,
+//     };
+//   } catch (error) {
+//     console.error('Error seeding pesanan:', error);
+//     throw error;
+//   }
+// }
+
+
 async function seedPesanan(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -220,7 +263,7 @@ async function seedPesanan(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS pesanan (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        nama VARCHAR(255) NOT NULL,
+        customer_id UUID NOT NULL,
         harga INT NOT NULL,
         barang VARCHAR(255) NOT NULL,
         jumlah INT NOT NULL,
@@ -235,8 +278,8 @@ async function seedPesanan(client) {
     const insertedPesanan = await Promise.all(
       pesanan.map(
         (pesanan) => client.sql`
-        INSERT INTO pesanan (id, nama, harga, barang, jumlah, date, keterangan, image_url)
-        VALUES (${pesanan.id}, ${pesanan.nama}, ${pesanan.harga}, ${pesanan.barang}, ${pesanan.jumlah}, ${pesanan.date}, ${pesanan.keterangan}, ${pesanan.image_url || 'default_image_url'})
+        INSERT INTO pesanan (id, customer_id, harga, barang, jumlah, date, keterangan, image_url)
+        VALUES (${pesanan.id}, ${pesanan.customer_id}, ${pesanan.harga}, ${pesanan.barang}, ${pesanan.jumlah}, ${pesanan.date}, ${pesanan.keterangan}, ${pesanan.image_url || 'default_image_url'})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
