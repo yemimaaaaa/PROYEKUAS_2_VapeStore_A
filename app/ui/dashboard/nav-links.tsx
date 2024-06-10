@@ -28,10 +28,10 @@ const links = [
     name: 'Produk',
     href: '/dashboard/produk',
   },
-  {
-    name: 'Pesanan',
-    href: '/dashboard/pesanan',
-  }
+  // {
+  //   name: 'Pesanan',
+  //   href: '/dashboard/pesanan',
+  // }
 ];
  
 export default function NavLinks() {

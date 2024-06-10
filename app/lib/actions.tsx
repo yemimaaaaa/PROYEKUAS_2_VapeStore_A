@@ -14,7 +14,7 @@ const FormSchema = z.object({
   total_harga: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
   status: z.enum(['pending', 'paid'], {invalid_type_error: 'Please select an invoice status.',}),
   kuantitas: z.string({invalid_type_error: 'Please add kuantitas. ',}),
-  image_url: z.string(),
+  // image_url: z.string(),
   date: z.string(),
 });
 
@@ -93,21 +93,21 @@ const UpdatePesanan = FormSchema5.omit({ id: true, date: true});
 // const UpdatePesanan = FormSchema4.omit({ id: true, date: true});
 
 export async function createInvoice(formData: FormData) {
-  const img = formData.get('image');
-  console.log(img);
+  // const img = formData.get('image');
+  // console.log(img);
 
-  let fileName = '';
-  if (img instanceof File) {
-    fileName = '/customers/' + img.name;
-    console.log('Image uploaded:', fileName);
-  };
+  // let fileName = '';
+  //   if (img instanceof Blob) { // Ubah ini
+  //     fileName =  '/customers/'+ img.name;
+  //     console.log(fileName);
+  //   };
 
-  const { customerId, total_harga, status, kuantitas, image_url} = CreateInvoice.parse({
+  const { customerId, total_harga, status, kuantitas} = CreateInvoice.parse({
     customerId: formData.get('customerId'),
     total_harga: formData.get('total_harga'),
     status: formData.get('status'),
     kuantitas: formData.get('kuantitas'),
-    image_url: fileName
+    // image_url: fileName
   });
 
   const total_hargaInCents = total_harga * 100;
@@ -115,8 +115,8 @@ export async function createInvoice(formData: FormData) {
 
   try {
     await sql`
-        INSERT INTO invoices (customer_id, total_harga, status, date, kuantitas, image_url)
-        VALUES (${customerId}, ${total_hargaInCents}, ${status}, ${date}, ${kuantitas}, ${image_url}})
+        INSERT INTO invoices (customer_id, total_harga, status, date, kuantitas)
+        VALUES (${customerId}, ${total_hargaInCents}, ${status}, ${date}, ${kuantitas}})
       `;
   } catch (error) {
     return {
@@ -129,20 +129,20 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function updateInvoice(id: string, formData: FormData) {
-  const image = formData.get('image');
-  console.log(image);
+  // const image = formData.get('image');
+  // console.log(image);
  
-  let fileName = '';
-  if (image instanceof File) {
-    fileName = '/customers/' + image.name;
-    console.log('Image uploaded:', fileName);
-  };
-  const { customerId, total_harga, status, kuantitas, image_url } = UpdateInvoice.parse({
+  // let fileName = '';
+  // if (image instanceof File) {
+  //   fileName = '/customers/' + image.name;
+  //   console.log('Image uploaded:', fileName);
+  // };
+  const { customerId, total_harga, status, kuantitas } = UpdateInvoice.parse({
     customerId: formData.get('customerId'),
     total_harga: formData.get('total_harga'),
     status: formData.get('status'),
     kuantitas: formData.get('kuantitas'),
-    image_url: fileName
+    // image_url: fileName
   });
 
   const total_hargaInCents = total_harga * 100;
@@ -150,7 +150,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   try {
     await sql`
           UPDATE invoices
-          SET customer_id = ${customerId}, total_harga = ${total_hargaInCents}, status = ${status}, kuantitas = ${kuantitas}, image_url = ${fileName}
+          SET customer_id = ${customerId}, total_harga = ${total_hargaInCents}, status = ${status}, kuantitas = ${kuantitas}
           WHERE id = ${id}
         `;
   } catch (error) {
@@ -170,10 +170,11 @@ export async function createCustomers(formData: FormData) {
   console.log(img);
 
   let fileName = '';
-  if (img instanceof File) {
-    fileName = '/customers/' + img.name;
-    console.log('Image uploaded:', fileName);
-  };
+    if (img instanceof Blob) { // Ubah ini
+      fileName =  '/customers/'+ img.name;
+      console.log(fileName);
+    };
+
 
   const { nama, no_telp, pesanan, image_url, gender } = CreateCustomers.parse({
     nama: formData.get('nama'),

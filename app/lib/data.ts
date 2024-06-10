@@ -160,7 +160,7 @@ export async function fetchInvoicesPages(query: string) {
   `;
  
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    const displayedTotalPages = totalPages <= 5 ? totalPages : 2;
+    const displayedTotalPages = totalPages <= 5 ? totalPages : 10;
     return displayedTotalPages;
   } catch (error) {
     console.error('Database Error:', error);
