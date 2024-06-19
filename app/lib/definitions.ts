@@ -4,7 +4,7 @@
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 // export type User = {
 //   id: string;
-//   name: string;
+//   nama: string;
 //   email: string;
 //   password: string;
 // };
@@ -44,15 +44,24 @@ export type Produk = {
   garansi: string;
 }
 
-export type Invoices = {
-
+// export type Invoices = {
+//   id: string;
+//   customer_id: string;
+//   total_harga: number;
+//   status: 'pending' | 'paid';
+//   kuantitas: number;
+//   date: string;
+//   image_url: string;
+// }
+export type Invoice = {
+  id: string;
   customer_id: string;
   total_harga: number;
-  status: string;
-  kuantitas: number;
   date: string;
-  image_url: string;
-}
+  // In TypeScript, this is called a string union type.
+  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
+  status: 'pending' | 'paid';
+};
 
 export type LatestInvoice = {
 
@@ -75,13 +84,23 @@ export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
   amount: number;
 };
 
+// export type InvoicesTable = {
+//   id: string;
+//   customer_id: string;
+//   nama: string;
+//   // email: string;
+//   no_telp: string;
+//   kuantitas: string;
+//   image_url: string;
+//   date: string;
+//   total_harga: number;
+//   status: 'pending' | 'paid';
+// };
 export type InvoicesTable = {
   id: string;
   customer_id: string;
   nama: string;
-  // email: string;
   no_telp: string;
-  kuantitas: string;
   image_url: string;
   date: string;
   total_harga: number;
@@ -105,6 +124,7 @@ export type FormattedCustomersTable = {
   nama: string;
   no_telp: string;
   pesanan: string;
+  date: string;
   image_url: string;
   total_invoices: number;
   total_paid: string;
@@ -138,7 +158,8 @@ export type InvoiceForm = {
   customer_id: string;
   total_harga: number;
   status: 'pending' | 'paid';
-  kuantitas: string;
+  //kuantitas: string;
+  //image_url: string;
 };
 
 export type CustomersForm = {
@@ -210,5 +231,5 @@ export type PesananForm = {
   jumlah: number;
   date: string;
   keterangan: 'sedang diproses' | 'done';
-  image_url: string;
+  image_url: string;
 }

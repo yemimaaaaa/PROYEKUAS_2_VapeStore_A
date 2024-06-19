@@ -4,7 +4,6 @@ import { lusitana } from '@/app/ui/fonts';
 import { Revenue } from '@/app/lib/definitions';
 import { fetchRevenue } from '@/app/lib/data';
 
-
 // This component is representational only.
 // For data visualization UI, check out:
 // https://www.tremor.so/
@@ -43,7 +42,7 @@ export default async function RevenueChart() { // Make component async, remove t
           {revenue.map((month) => (
             <div key={month.month} className="flex flex-col items-center gap-2">
               <div
-                className="w-full rounded-md bg-fuchsia-300"
+                className="w-full rounded-md bg-fuchsia-400"
                 style={{
                   height: `${(chartHeight / topLabel) * month.revenue}px`,
                 }}
