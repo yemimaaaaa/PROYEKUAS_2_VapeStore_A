@@ -14,6 +14,7 @@ const FormSchema = z.object({
   status: z.enum(['pending', 'paid'], {invalid_type_error: 'Please select an invoice status.',}),
   // kuantitas: z.string({invalid_type_error: 'Please add kuantitas. ',}),
   date: z.string(),
+  pembayaran: z.enum(['E-Wallet', 'Cash', 'Transfer Bank', 'Credit Card'], {invalid_type_error: 'Please select a payment method.',}),
 });
 
 const FormSchema2 = z.object({
@@ -77,10 +78,11 @@ const CreatePesanan = FormSchema4.omit({ id: true, date: true});
 const UpdatePesanan = FormSchema4.omit({ id: true, date: true});
 
 export async function createInvoice(formData: FormData) {
-  const { customerId, total_harga, status } = CreateInvoice.parse({
+  const { customerId, total_harga, status, pembayaran } = CreateInvoice.parse({
     customerId: formData.get('customerId'),
     total_harga: formData.get('total_harga'),
     status: formData.get('status'),
+    pembayaran: formData.get('pembayaran'),
   });
 
   const total_hargaInCents = total_harga * 100;
@@ -88,8 +90,8 @@ export async function createInvoice(formData: FormData) {
 
   try {
     await sql`
-        INSERT INTO invoices (customer_id, total_harga, status, date)
-        VALUES (${customerId}, ${total_hargaInCents}, ${status}, ${date})
+        INSERT INTO invoices (customer_id, total_harga, status, date, pembayaran)
+        VALUES (${customerId}, ${total_hargaInCents}, ${status}, ${date}, ${pembayaran})
       `;
   } catch (error) {
     return {
@@ -102,18 +104,19 @@ export async function createInvoice(formData: FormData) {
 }
 
 export async function updateInvoice(id: string, formData: FormData) {
-  const { customerId, total_harga, status } = UpdateInvoice.parse({
+  const { customerId, total_harga, status, pembayaran } = UpdateInvoice.parse({
     customerId: formData.get('customerId'),
     total_harga: formData.get('total_harga'),
     status: formData.get('status'),
+    pembayaran: formData.get('pembayaran'),
   });
 
   const total_hargaInCents = total_harga * 100;
- 
+
   try {
     await sql`
           UPDATE invoices
-          SET customer_id = ${customerId}, total_harga = ${total_hargaInCents}, status = ${status}
+          SET customer_id = ${customerId}, total_harga = ${total_hargaInCents}, status = ${status}, pembayaran = ${pembayaran}
           WHERE id = ${id}
         `;
   } catch (error) {
@@ -123,6 +126,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
+
 
 export async function deleteInvoice(id: string) {
   throw new Error('Failed to Delete Invoice');

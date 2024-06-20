@@ -8,16 +8,16 @@ const users = [
     password: '123456',
   },
 ];
-// const lockedUser = [
-//   {
-//     id: '410544b2-1111-4271-9855-fec4b6a6442a',
-//   name: 'Dummy',
-//   username: "user_dummy",
-//   email: 'dummy@nextmail.com',
-//   password: "000000",
-//   locked: true // Status akun terkunci
-//   }
-// ];
+
+const dummy = [
+  {
+  id: '410544b2-1111-4271-9855-fec4b6a6442a',
+  name: 'Dummy',
+  email: 'dummy@nextmail.com',
+  password: "000000",
+  //locked: true // Status akun terkunci
+  }
+];
 
 // const customers = [
 //   {
@@ -315,6 +315,7 @@ const invoices = [
     status: 'paid',
     date: '2024-05-20',
     //kuantitas: '1',
+    pembayaran: 'E-Wallet',
   },
 {
     customer_id: customers[1].id,
@@ -322,6 +323,7 @@ const invoices = [
     status: 'pending',
     date: '2024-05-20',
     //kuantitas: '10',
+    pembayaran: 'Cash',
   },
 {
     customer_id: customers[2].id,
@@ -329,6 +331,7 @@ const invoices = [
     status: 'paid',
     date: '2024-05-20',
     //kuantitas: '10',
+    pembayaran: 'Transfer Bank',
   },
 {
     customer_id: customers[3].id,
@@ -336,6 +339,7 @@ const invoices = [
     status: 'paid',
     date: '2024-05-20',
     //kuantitas: '5',
+    pembayaran: 'E-Wallet',
   },
   {
     customer_id: customers[2].id,
@@ -343,6 +347,7 @@ const invoices = [
     status: 'paid',
     date: '2024-05-20',
     // kuantitas: '6',
+    pembayaran: 'Credit Card',
   },
 ];
 
@@ -495,6 +500,7 @@ const pesanan = [
 module.exports = {
   users,
   customers,
+  dummy,
   invoices,
   revenue,
   pesanan,

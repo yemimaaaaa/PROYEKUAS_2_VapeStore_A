@@ -4,10 +4,9 @@ import Link from 'next/link';
 import {
   InboxArrowDownIcon,
   UserCircleIcon,
-  EnvelopeIcon,
+
   ShoppingCartIcon,
-  ClockIcon,
-  CheckIcon
+  PhoneArrowDownLeftIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createCustomers } from '@/app/lib/actions';
@@ -50,7 +49,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 placeholder="Enter Your No. Telepon"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
-              <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <PhoneArrowDownLeftIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
         </div>
@@ -123,13 +122,13 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 value="P" // Nilai option 
                 className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
               />
-        <label
-          htmlFor="p" // htmlFor sesuai dengan ID radio button
-          className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-pink-200 px-3 py-1.5 text-xs font-medium text-pink-600" // Ubah warna menjadi lebih feminin (pink)
-        >
-          P <UserCircleIcon className="h-4 w-4" /> 
-        </label>
-       </div>
+                <label
+                  htmlFor="p" // htmlFor sesuai dengan ID radio button
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-pink-200 px-3 py-1.5 text-xs font-medium text-pink-600" // Ubah warna menjadi lebih feminin (pink)
+                >
+                  P <UserCircleIcon className="h-4 w-4" /> 
+                </label>
+              </div>
 
       {/* Opsi Laki-laki */}
                 <div className="flex items-center">

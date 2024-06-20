@@ -177,10 +177,15 @@
 import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
+  BanknotesIcon,
+  CheckBadgeIcon,
   CheckIcon,
   ClockIcon,
+  CreditCardIcon,
   CurrencyDollarIcon,
+  PhoneIcon,
   UserCircleIcon,
+  WalletIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createInvoice } from '@/app/lib/actions';
@@ -247,11 +252,11 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   name="status"
                   type="radio"
                   value="pending"
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-blue-600 focus:ring-2"
                 />
                 <label
                   htmlFor="pending"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-black-600"
                 >
                   Pending <ClockIcon className="h-4 w-4" />
                 </label>
@@ -262,13 +267,91 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   name="status"
                   type="radio"
                   value="paid"
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-blue-600 focus:ring-2"
                 />
                 <label
                   htmlFor="paid"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-fuchsia-300 px-3 py-1.5 text-xs font-medium text-white-600"
                 >
-                  Paid <CheckIcon className="h-4 w-4" />
+                  Paid <CheckBadgeIcon className="h-4 w-4" />
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        
+        {/* metode pembayaran */}
+          <fieldset>
+          <legend className="mb-2 block text-sm font-medium">
+            Set the payment method
+          </legend>
+          <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
+            <div className="flex gap-4">
+              <div className="flex items-center">
+                <input
+                  id="E-Wallet"
+                  name="pembayaran"
+                  type="radio"
+                  value="E-Wallet"
+                  //defaultChecked={invoice.pembayaran === 'E-Wallet'}
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-black-600 focus:ring-2"
+                />
+                <label
+                  htmlFor="E-Wallet"
+                  className="ml-2 flex cursor-pointer items-center gap-2 rounded-full bg-fuchsia-300 px-8 py-2 text-xs font-medium text-black-600"
+                >
+                  E-Wallet<WalletIcon className="h-4 w-4" />
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="Cash"
+                  name="pembayaran"
+                  type="radio"
+                  value="Cash"
+                 //defaultChecked={invoice.pembayaran === 'Cash'}
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-black-600 focus:ring-2"
+                />
+                <label
+                  htmlFor="Cash"
+                  className="ml-2 flex cursor-pointer items-center gap-2 rounded-full bg-fuchsia-300 px-8 py-2 text-xs font-medium text-black-600"
+                >
+                  Cash <CurrencyDollarIcon className="h-4 w-4" />
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="Transfer Bank"
+                  name="pembayaran"
+                  type="radio"
+                  value="Transfer Bank"
+                  //defaultChecked={invoice.pembayaran === 'Transfer Bank'}
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-blue-600 focus:ring-2"
+                />
+                <label
+                  htmlFor="Transfer Bank"
+                  className="ml-2 flex cursor-pointer items-center gap-2 rounded-full bg-fuchsia-300 px-8 py-2 text-xs font-medium text-black-600"
+                >
+                  Transfer Bank <BanknotesIcon className="h-4 w-4" />
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="Credit Card"
+                  name="pembayaran"
+                  type="radio"
+                  value="Credit Card"
+                  //defaultChecked={invoice.pembayaran === 'Credit Card'}
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-blue-600 focus:ring-2"
+                />
+                <label
+                  htmlFor="Credit Card"
+                  className="ml-2 flex cursor-pointer items-center gap-2 rounded-full bg-fuchsia-300 px-8 py-2 text-xs font-medium text-black-600"
+                >
+                  Credit Card <CreditCardIcon className="h-4 w-4" />
                 </label>
               </div>
             </div>

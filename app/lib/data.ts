@@ -7,6 +7,7 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   User,
+  Dummy,
   Revenue,
   Customers,
   Produk,
@@ -20,6 +21,7 @@ import {
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore, unstable_noStore } from 'next/cache'; 
 import { error } from 'console';
+import { dummy } from './placeholder-data';
  
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -142,6 +144,7 @@ export async function fetchFilteredInvoices(
         invoices.total_harga,
         invoices.date,
         invoices.status,
+        invoices.pembayaran,
         customers.nama,
         customers.no_telp,
         customers.image_url
@@ -152,7 +155,8 @@ export async function fetchFilteredInvoices(
         customers.no_telp ILIKE ${`%${query}%`} OR
         invoices.total_harga::text ILIKE ${`%${query}%`} OR
         invoices.date::text ILIKE ${`%${query}%`} OR
-        invoices.status ILIKE ${`%${query}%`}
+        invoices.status ILIKE ${`%${query}%`} OR
+        invoices.pembayaran ILIKE ${`%${query}%`}
       ORDER BY invoices.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -175,7 +179,8 @@ export async function fetchInvoicesPages(query: string) {
       customers.no_telp ILIKE ${`%${query}%`} OR
       invoices.total_harga::text ILIKE ${`%${query}%`} OR
       invoices.date::text ILIKE ${`%${query}%`} OR
-      invoices.status ILIKE ${`%${query}%`}
+      invoices.status ILIKE ${`%${query}%`} OR
+      invoices.pembayaran ILIKE ${`%${query}%`}
   `;
  
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
@@ -283,6 +288,16 @@ export async function getUser(email: string) {
   try {
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     return user.rows[0] as User;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
+
+export async function getDummy(email: string) {
+  try {
+    const dummy = await sql`SELECT * FROM dummy WHERE email=${email}`;
+    return dummy.rows[0] as Dummy;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
@@ -509,24 +524,29 @@ export async function fetchInvoiceById(id: string) {
         invoices.id,
         invoices.customer_id,
         invoices.total_harga,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
+        invoices.status,
+        invoices.pembayaran
+      FROM
+        invoices 
+      WHERE
+        invoices.id = ${id};
     `;
 
-    const invoice = data.rows.map((invoice) => ({
-      ...invoice,
-      // Convert amount from cents to dollars
-      amount: invoice.total_harga / 100,
-    }));
-    
-    console.log(invoice); // Invoice is an empty array []
-    return invoice[0];
+    if (!data.rows.length) {
+      throw new Error(`Invoice with id ${id} not found`);
+    }
+
+    const invoice = data.rows[0];
+    invoice.total_harga = invoice.total_harga / 100; // Convert amount from cents to dollars
+
+    console.log(invoice);
+    return invoice;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
   }
 }
+
 export async function fetchProdukById(id: string) {
   noStore();
   try {

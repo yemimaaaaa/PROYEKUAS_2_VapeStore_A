@@ -1,4 +1,4 @@
-const { db } = require('@vercel/postgres');
+const { db, Client } = require('@vercel/postgres');
 const {
   invoices,
   produk,
@@ -6,7 +6,7 @@ const {
   revenue,
   pesanan,
   users,
-  lockedUser,
+  dummy,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
@@ -48,45 +48,88 @@ async function seedUsers(client) {
     throw error;
   }
 }
-// async function seedlockedUser(client) {
+
+// async function seedDummy(client) {
 //   try {
 //     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 //     // Create the "users" table if it doesn't exist
 //     const createTable = await client.sql`
-//       CREATE TABLE IF NOT EXISTS  (
+//       CREATE TABLE IF NOT EXISTS dummy (
 //         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
 //         name VARCHAR(255) NOT NULL,
 //         email TEXT NOT NULL UNIQUE,
-//         password TEXT NOT NULL,
-//         locked TEXT NOT NULL
+//         password TEXT NOT NULL
 //       );
 //     `;
 
-//     console.log(`Created "lockedUser" table`);
+//     console.log(`Created "dummy" table`);
 
 //     // Insert data into the "users" table
-//     const insertedsers = await Promise.all(
-//       users.map(async (user) => {
-//         const hashedPassword = await bcrypt.hash(user.password, 10);
+//     const insertedDummy = await Promise.all(
+//       users.map(async (dummy) => {
+//         const hashedPassword = await bcrypt.hash(dummy.password, 10);
 //         return client.sql`
-//         INSERT INTO users (id, name, email, password)
-//         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+//         INSERT INTO dummy (id, name, email, password)
+//         VALUES (${dummy.id}, ${dummy.name}, ${dummy.email}, ${hashedPassword})
 //         ON CONFLICT (id) DO NOTHING;
 //       `;
 //       }),
 //     );
 
-//     console.log(`Seeded ${insertedUsers.length} users`);
+//     console.log(`Seeded ${insertedDummy.length} dummy`);
 
 //     return {
 //       createTable,
-//       users: insertedUsers,
+//       dummy: insertedDummy,
 //     };
 //   } catch (error) {
-//     console.error('Error seeding users:', error);
+//     console.error('Error seeding dummy:', error);
 //     throw error;
 //   }
 // }
+async function createDummyTable(client) {
+  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+  return client.sql`
+    CREATE TABLE IF NOT EXISTS dummy (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL
+    );
+  `;
+}
+
+async function seedDummyData(client, dummy) {
+  const hashedDummy = await Promise.all(
+    dummy.map(async (dummy) => ({
+      ...dummy,
+      password: await bcrypt.hash(dummy.password, 10),
+    }))
+  );
+
+  const insertedDummy = await Promise.all(
+    hashedDummy.map((dummy) =>
+      client.sql`
+        INSERT INTO dummy (id, name, email, password)
+        VALUES (${dummy.id}, ${dummy.name}, ${dummy.email}, ${dummy.password})
+        ON CONFLICT (id) DO NOTHING;
+      `
+    )
+  );
+
+  console.log(`Seeded ${insertedDummy.length} dummy data`);
+  return insertedDummy;
+}
+
+async function seedDummy(client) {
+  try {
+    await createDummyTable(client);
+    return seedDummyData(client, dummy); 
+  } catch (error) {
+    console.error('Error seeding dummy:', error);
+    throw error;
+  }
+}
 
 async function seedCustomers(client) {
   try {
@@ -183,7 +226,8 @@ async function seedInvoices(client) {
         customer_id UUID NOT NULL,
         total_harga INT NOT NULL,
         status VARCHAR(255) NOT NULL,
-        date DATE NOT NULL
+        date DATE NOT NULL,
+        pembayaran VARCHAR(255) NOT NULL
       );
     `;
 
@@ -193,8 +237,8 @@ async function seedInvoices(client) {
     const insertedInvoices = await Promise.all(
       invoices.map(
         (invoices) => client.sql`
-        INSERT INTO invoices (customer_id, total_harga, status, date)
-        VALUES (${invoices.customer_id}, ${invoices.total_harga}, ${invoices.status}, ${invoices.date})
+        INSERT INTO invoices (customer_id, total_harga, status, date, pembayaran)
+        VALUES (${invoices.customer_id}, ${invoices.total_harga}, ${invoices.status}, ${invoices.date},  ${invoices.pembayaran})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
@@ -338,6 +382,7 @@ async function main() {
   await seedInvoices(client);
   await seedPesanan(client);
   await seedRevenue(client);
+  await seedDummy(client);
   await client.end();
 }
 

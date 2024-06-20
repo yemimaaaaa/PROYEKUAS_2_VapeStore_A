@@ -9,6 +9,8 @@ import {
   XMarkIcon,
   ShieldCheckIcon,
   InboxArrowDownIcon,
+  CubeTransparentIcon,
+  ListBulletIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -26,7 +28,7 @@ export default function EditProdukForm({
     <form action={updateProdukWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Produk Name */}
-        <div className="mb-4">
+          <div className="mb-4">
           <label htmlFor="nama" className="mb-2 block text-sm font-medium">
             Choose produk
           </label>
@@ -86,7 +88,7 @@ export default function EditProdukForm({
             </select>
 
 
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <ListBulletIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
         </div>
@@ -128,29 +130,11 @@ export default function EditProdukForm({
                 placeholder="Enter stok"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <CubeTransparentIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
         </div>
-              {/* Upload Foto Customer */}
-        {/* <div className="mb-4">
-          <label htmlFor="image" className="mb-2 block text-sm font-medium">
-            Upload Image
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-              id="image"
-              name="image"
-              type="file"
-              accept="image/*"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <InboxArrowDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-        </div> */}
-
+      {/* Upload foto */}
         <div className="mb-4">
         <label htmlFor="image" className="mb-2 block text-sm font-medium">
           Upload Image
@@ -163,19 +147,6 @@ export default function EditProdukForm({
               type="file"
               accept="image/*"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              // onChange={(e) => {
-              //   const file = e.target.files?.[0];
-              //   if (file) {
-              //     const reader = new FileReader();
-              //     reader.onloadend = () => {
-              //       setImagePreview(reader.result as string);
-              //     };
-              //     reader.readAsDataURL(file);
-              //   } else {
-              //     // Jika tidak ada file yang dipilih, atur kembali ke gambar awal
-              //     setImagePreview(produk.image_url);
-              //   }
-              // }}
             />
             <InboxArrowDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
           </div>

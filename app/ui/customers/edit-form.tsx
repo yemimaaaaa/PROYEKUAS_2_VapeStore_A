@@ -4,7 +4,8 @@ import { CustomerField, CustomersForm } from '@/app/lib/definitions';
 import {
     UserCircleIcon,
     InboxArrowDownIcon,
-    EnvelopeIcon
+    PhoneArrowDownLeftIcon,
+    ShoppingCartIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -78,7 +79,7 @@ export default function EditCustomersForm({
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 defaultValue={customers.no_telp}
                             />
-                            <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                            <PhoneArrowDownLeftIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
                     </div>
                 </div>
@@ -107,7 +108,7 @@ export default function EditCustomersForm({
                                 <option value={customers.pesanan}> {customers.pesanan} </option> 
                             )}
                             </select>
-                            <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                            <ShoppingCartIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
                     </div>
                 </div>
@@ -130,52 +131,50 @@ export default function EditCustomersForm({
                         </div>
                     </div>
                 </div>
+                {/* {customer gender} */}
+                <fieldset>
+                <legend className="mb-2 block text-sm font-medium">Set the gender</legend>
+                <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
+                    <div className="flex gap-4">
+                    {/* Female Option */}
+                    <div className="flex items-center">
+                        <input
+                        id="P"
+                        name="gender" // Use a common name for the group
+                        type="radio"
+                        value="P" // Set value 
+                        defaultChecked={customers.gender === 'P'} 
+                        className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                        />
+                        <label
+                        htmlFor="P"
+                        className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-pink-200 px-3 py-1.5 text-xs font-medium text-pink-600"
+                        >
+                        P <UserCircleIcon className="h-4 w-4" />
+                        </label>
+                    </div>
+
+                    {/* Male Option */}
+                    <div className="flex items-center">
+                        <input
+                        id="L"
+                        name="gender" // Same name as the other radio button
+                        type="radio"
+                        value="L" // Set value to 'laki-laki'
+                        defaultChecked={customers.gender === 'L'}
+                        className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                        />
+                        <label
+                        htmlFor="L"
+                        className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-200 px-3 py-1.5 text-xs font-medium text-blue-600"
+                        >
+                        L <UserCircleIcon className="h-4 w-4" />
+                        </label>
+                    </div>
+                    </div>
+                </div>
+                </fieldset>
             </div>
-        
-        {/* {customer gender} */}
-        <fieldset>
-  <legend className="mb-2 block text-sm font-medium">Set the gender</legend>
-  <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-    <div className="flex gap-4">
-      {/* Female Option */}
-      <div className="flex items-center">
-        <input
-          id="P"
-          name="gender" // Use a common name for the group
-          type="radio"
-          value="P" // Set value 
-          defaultChecked={customers.gender === 'P'} 
-          className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-        />
-        <label
-          htmlFor="P"
-          className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-pink-200 px-3 py-1.5 text-xs font-medium text-pink-600"
-        >
-          P <UserCircleIcon className="h-4 w-4" />
-        </label>
-      </div>
-
-      {/* Male Option */}
-      <div className="flex items-center">
-        <input
-          id="L"
-          name="gender" // Same name as the other radio button
-          type="radio"
-          value="L" // Set value to 'laki-laki'
-          defaultChecked={customers.gender === 'L'}
-          className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-        />
-        <label
-          htmlFor="L"
-          className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-200 px-3 py-1.5 text-xs font-medium text-blue-600"
-        >
-          L <UserCircleIcon className="h-4 w-4" />
-        </label>
-      </div>
-    </div>
-  </div>
-</fieldset>
-
             {/* Cancel and Edit */}
             <div className={`${inter.className} mt-6 flex justify-end gap-4`}>
                 <Link

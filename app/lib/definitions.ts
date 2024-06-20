@@ -2,12 +2,6 @@
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
-// export type User = {
-//   id: string;
-//   nama: string;
-//   email: string;
-//   password: string;
-// };
 
 export type User = {
   id: string;
@@ -16,12 +10,13 @@ export type User = {
   password: string;
 };
 
-// export type LockedUser = {
-//   name: string;
-//   username: string;
-//   password: string;
-//   locked: string;
-// };
+export type Dummy = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  // locked: string;
+};
 
 export type Customers = {
   id: string;
@@ -61,6 +56,7 @@ export type Invoice = {
   // In TypeScript, this is called a string union type.
   // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
   status: 'pending' | 'paid';
+  pembayaran: 'E-Wallet' | 'Cash' | 'Transfer Bank' | 'Credit Card';
 };
 
 export type LatestInvoice = {
@@ -105,6 +101,7 @@ export type InvoicesTable = {
   date: string;
   total_harga: number;
   status: 'pending' | 'paid';
+  pembayaran: 'E-Wallet' | 'Cash' | 'Transfer Bank' | 'Credit Card';
 };
 
 export type CustomersTableType = {
@@ -157,7 +154,9 @@ export type InvoiceForm = {
   id: string;
   customer_id: string;
   total_harga: number;
+  // date: string;
   status: 'pending' | 'paid';
+  pembayaran: 'E-Wallet' | 'Cash' | 'Transfer Bank' | 'Credit Card';
   //kuantitas: string;
   //image_url: string;
 };
