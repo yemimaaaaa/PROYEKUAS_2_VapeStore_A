@@ -74,7 +74,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               // defaultValue="Enter Your Name"
               >
                 <option value="" disabled>
-                  Select a customer
+                  Select a order
                 </option>
                 {customers.map((customer) => (
                   <option key={customer.pesanan} value={customer.pesanan}>
