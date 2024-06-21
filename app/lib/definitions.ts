@@ -211,24 +211,24 @@ export type ProdukTableType = {
   // total_paid: number;
 };
 
-export type PesananTableType = {
-  id: string;
-  customer_id: string;
-  harga: number;
-  barang: string;
-  jumlah: number;
-  date: string;
-  keterangan: 'sedang diproses' | 'done';
-  image_url: string;
-}
+// export type PesananTableType = {
+//   id: string;
+//   customer_id: string;
+//   harga: number;
+//   barang: string;
+//   jumlah: number;
+//   date: string;
+//   keterangan: 'sedang diproses' | 'done';
+//   image_url: string;
+// }
 
-export type PesananForm = {
-  id: string;
-  customer_id: string;
-  harga: number;
-  barang: string;
-  jumlah: number;
-  date: string;
-  keterangan: 'sedang diproses' | 'done';
-  image_url: string;
-}
+// export type PesananForm = {
+//   id: string;
+//   customer_id: string;
+//   harga: number;
+//   barang: string;
+//   jumlah: number;
+//   date: string;
+//   keterangan: 'sedang diproses' | 'done';
+//   image_url: string;
+// }

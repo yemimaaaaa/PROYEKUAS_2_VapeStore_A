@@ -11,11 +11,9 @@ import {
   Revenue,
   Customers,
   Produk,
-  PesananTableType,
   ProdukForm,
   CustomersForm,
   ProdukField,
-  PesananForm,
   // CustomersTable,
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -598,98 +596,98 @@ export async function fetchProduk() {
 }
 
 //PESANAN
-export async function fetchFilteredPesanan(
-  query: string, 
-  currentPage: number) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  noStore(); // Assuming this is a function to disable caching
+// export async function fetchFilteredPesanan(
+//   query: string, 
+//   currentPage: number) {
+//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+//   noStore(); // Assuming this is a function to disable caching
 
-  try {
-    const pesanan = await sql<PesananTableType>`
-      SELECT
-          pesanan.id,
-          pesanan.customers_id,
-          pesanan.harga,
-          pesanan.barang,
-          pesanan.jumlah,
-          pesanan.date,
-          pesanan.keterangan,
-          pesanan.image_url,
-          customers.nama
-      FROM pesanan
-      JOIN customers ON pesanan.customer_id = customers.id
-      WHERE
-          pesanan.id ILIKE ${`%${query}%`} OR
-          pesanan.customers_id ILIKE ${`%${query}%`} OR
-          pesanan.harga::text ILIKE ${`%${query}%`} OR
-          pesanan.barang ILIKE ${`%${query}%`} OR
-          pesanan.jumlah::text ILIKE ${`%${query}%`} OR
-          pesanan.date::text ILIKE ${`%${query}%`} OR
-          pesanan.keterangan ILIKE ${`%${query}%`} OR
-          pesanan.image_url ILIKE ${`%${query}%`}
-      ORDER BY customers.nama ASC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};
-    `;
+//   try {
+//     const pesanan = await sql<PesananTableType>`
+//       SELECT
+//           pesanan.id,
+//           pesanan.customers_id,
+//           pesanan.harga,
+//           pesanan.barang,
+//           pesanan.jumlah,
+//           pesanan.date,
+//           pesanan.keterangan,
+//           pesanan.image_url,
+//           customers.nama
+//       FROM pesanan
+//       JOIN customers ON pesanan.customer_id = customers.id
+//       WHERE
+//           pesanan.id ILIKE ${`%${query}%`} OR
+//           pesanan.customers_id ILIKE ${`%${query}%`} OR
+//           pesanan.harga::text ILIKE ${`%${query}%`} OR
+//           pesanan.barang ILIKE ${`%${query}%`} OR
+//           pesanan.jumlah::text ILIKE ${`%${query}%`} OR
+//           pesanan.date::text ILIKE ${`%${query}%`} OR
+//           pesanan.keterangan ILIKE ${`%${query}%`} OR
+//           pesanan.image_url ILIKE ${`%${query}%`}
+//       ORDER BY customers.nama ASC
+//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};
+//     `;
 
-    return pesanan.rows;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch pesanan table.');
-  }
-}
+//     return pesanan.rows;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch pesanan table.');
+//   }
+// }
 
-export async function fetchPesananPages(query: string) {
-  try {
-    const count = await sql`
-      SELECT COUNT(*)
-      FROM pesanan
-      JOIN customers ON pesanan.customer_id = customers.id
-      WHERE 
-        pesanan.id ILIKE ${`%${query}%`} OR
-        customers.id ILIKE ${`%${query}%`} OR
-        pesanan.harga::text ILIKE ${`%${query}%`} OR
-        pesanan.barang ILIKE ${`%${query}%`} OR
-        pesanan.jumlah::text ILIKE ${`%${query}%`} OR
-        pesanan.date::text ILIKE ${`%${query}%`} OR
-        pesanan.keterangan ILIKE ${`%${query}%`} OR
-        pesanan.image_url ILIKE ${`%${query}%`}
-  `;
-    // const totalCount = count.rows[0].count ? parseInt(count.rows[0].count, 10) : 0;
-    // const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    return totalPages;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch total number of pesanan.');
-  }
-}
+// export async function fetchPesananPages(query: string) {
+//   try {
+//     const count = await sql`
+//       SELECT COUNT(*)
+//       FROM pesanan
+//       JOIN customers ON pesanan.customer_id = customers.id
+//       WHERE 
+//         pesanan.id ILIKE ${`%${query}%`} OR
+//         customers.id ILIKE ${`%${query}%`} OR
+//         pesanan.harga::text ILIKE ${`%${query}%`} OR
+//         pesanan.barang ILIKE ${`%${query}%`} OR
+//         pesanan.jumlah::text ILIKE ${`%${query}%`} OR
+//         pesanan.date::text ILIKE ${`%${query}%`} OR
+//         pesanan.keterangan ILIKE ${`%${query}%`} OR
+//         pesanan.image_url ILIKE ${`%${query}%`}
+//   `;
+//     // const totalCount = count.rows[0].count ? parseInt(count.rows[0].count, 10) : 0;
+//     // const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+//     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+//     return totalPages;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch total number of pesanan.');
+//   }
+// }
 
-export async function fetchPesananById(id: string) {
-  noStore();
-  try {
-    const data = await sql<PesananForm>`
-      SELECT
-        pesanan.id,
-        pesanan.customer_id,
-        pesanan.harga,
-        pesanan.barang,
-        pesanan.jumlah,
-        pesanan.date,
-        pesanan.keterangan,
-        pesanan.image_url
-      FROM pesanan
-      WHERE pesanan.id = ${id};
-    `;
+// export async function fetchPesananById(id: string) {
+//   noStore();
+//   try {
+//     const data = await sql<PesananForm>`
+//       SELECT
+//         pesanan.id,
+//         pesanan.customer_id,
+//         pesanan.harga,
+//         pesanan.barang,
+//         pesanan.jumlah,
+//         pesanan.date,
+//         pesanan.keterangan,
+//         pesanan.image_url
+//       FROM pesanan
+//       WHERE pesanan.id = ${id};
+//     `;
 
-    const pesanan = data.rows.map((pesanan) => ({
-      ...pesanan,
-      image_url: pesanan.image_url || 'default-image-url.jpg'
-    }));
+//     const pesanan = data.rows.map((pesanan) => ({
+//       ...pesanan,
+//       image_url: pesanan.image_url || 'default-image-url.jpg'
+//     }));
 
-    // console.log(pesanan); 
-    return pesanan[0];
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch pesanan.');
-  }
-}
+//     // console.log(pesanan); 
+//     return pesanan[0];
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch pesanan.');
+//   }
+// }

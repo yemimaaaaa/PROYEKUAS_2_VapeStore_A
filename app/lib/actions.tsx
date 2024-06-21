@@ -130,6 +130,13 @@ export async function updateInvoice(id: string, formData: FormData) {
 
 export async function deleteInvoice(id: string) {
   throw new Error('Failed to Delete Invoice');
+  try {
+    await sql`DELETE FROM customers WHERE id = ${id}`;
+    revalidatePath('/dashboard/customer');
+    return { message: 'Deleted Customers.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Customers.' };
+  }
 }
 
 export async function createCustomers(formData: FormData) {
@@ -203,13 +210,13 @@ export async function updateCustomers(id: string, formData: FormData) {
 
 export async function deleteCustomers(id: string) {
 throw new Error('Failed to Delete Customers');
-  try {
-    await sql`DELETE FROM customers WHERE id = ${id}`;
-    revalidatePath('/dashboard/customer');
-    return { message: 'Deleted Customers.' };
-  } catch (error) {
-    return { message: 'Database Error: Failed to Delete Customers.' };
-  }
+  // try {
+  //   await sql`DELETE FROM customers WHERE id = ${id}`;
+  //   revalidatePath('/dashboard/customer');
+  //   return { message: 'Deleted Customers.' };
+  // } catch (error) {
+  //   return { message: 'Database Error: Failed to Delete Customers.' };
+  // }
 }
 
 export async function authenticate(
@@ -318,85 +325,85 @@ export async function deleteProduk(id: string) {
 
 //PESANAN
 
-export async function createPesanan(formData: FormData) {
-  // const img = formData.get('image');
-  // console.log(img);
+// export async function createPesanan(formData: FormData) {
+//   // const img = formData.get('image');
+//   // console.log(img);
 
-  // let fileName = '';
-  // if (img instanceof File) {
-  //   fileName = '/pesanan/' + img.name;
-  //   console.log('Image uploaded:', fileName);
-  // };
+//   // let fileName = '';
+//   // if (img instanceof File) {
+//   //   fileName = '/pesanan/' + img.name;
+//   //   console.log('Image uploaded:', fileName);
+//   // };
 
-  const { customerId, barang, harga, jumlah, keterangan } = CreatePesanan.parse({
-    customerId: formData.get('customerId'),
-    barang: formData.get('barang'),
-    harga: formData.get('harga'),
-    jumlah: formData.get('jumlah'),
-    keterangan: formData.get('keterangan'),
-  });
+//   const { customerId, barang, harga, jumlah, keterangan } = CreatePesanan.parse({
+//     customerId: formData.get('customerId'),
+//     barang: formData.get('barang'),
+//     harga: formData.get('harga'),
+//     jumlah: formData.get('jumlah'),
+//     keterangan: formData.get('keterangan'),
+//   });
 
-  const date = new Date().toISOString().split('T')[0];
+//   const date = new Date().toISOString().split('T')[0];
 
-  try {
-    await sql`
-        INSERT INTO pesanan (customer_id, barang, harga, jumlah, keterangan, date)
-        VALUES (${customerId}, ${barang}, ${harga}, ${jumlah}, ${keterangan}, ${date})
-      `;
-  } catch (error) {
-    return {
-      message: 'Database Error: Failed to Create Pesanan.',
-    };
-  }
+//   try {
+//     await sql`
+//         INSERT INTO pesanan (customer_id, barang, harga, jumlah, keterangan, date)
+//         VALUES (${customerId}, ${barang}, ${harga}, ${jumlah}, ${keterangan}, ${date})
+//       `;
+//   } catch (error) {
+//     return {
+//       message: 'Database Error: Failed to Create Pesanan.',
+//     };
+//   }
 
-  revalidatePath('/dashboard/pesanan');
-  redirect('/dashboard/pesanan');
-}
+//   revalidatePath('/dashboard/pesanan');
+//   redirect('/dashboard/pesanan');
+// }
 
-export async function updatePesanan(id: string, formData: FormData) {
-  // const img = formData.get('image');
-  // console.log(img);
+// export async function updatePesanan(id: string, formData: FormData) {
+//   // const img = formData.get('image');
+//   // console.log(img);
 
-  // let fileName = '';
-  // if (img instanceof File) {
-  //   fileName = '/pesanan/' + img.name;
-  //   console.log('Image uploaded:', fileName);
-  // };
-  const { customerId, barang, harga, jumlah, keterangan } = UpdatePesanan.parse({
-    customerId: formData.get('customerId'),
-    barang: formData.get('barang'),
-    harga: formData.get('harga'),
-    jumlah: formData.get('jumlah'),
-    keterangan: formData.get('keterangan'),
-    // image_url: fileName,
-  });
+//   // let fileName = '';
+//   // if (img instanceof File) {
+//   //   fileName = '/pesanan/' + img.name;
+//   //   console.log('Image uploaded:', fileName);
+//   // };
+//   const { customerId, barang, harga, jumlah, keterangan } = UpdatePesanan.parse({
+//     customerId: formData.get('customerId'),
+//     barang: formData.get('barang'),
+//     harga: formData.get('harga'),
+//     jumlah: formData.get('jumlah'),
+//     keterangan: formData.get('keterangan'),
+//     // image_url: fileName,
+//   });
 
 
-  const updateFields = { customerId, barang, harga, jumlah, keterangan };
-  // if (fileName) {
-  //   updateFields.image_url = fileName;
-  // }
-  try {
-    await sql`
-        UPDATE pesanan
-        SET customer_id = ${customerId}, barang=${barang}, harga = ${harga}, jumlah = ${jumlah}, keterangan = ${keterangan}
-        WHERE id = ${id}
-      `;
-  } catch (error) {
-    return { message: 'Database Error: Failed to Update Pesanan.' };
-  }
+//   const updateFields = { customerId, barang, harga, jumlah, keterangan };
+//   // if (fileName) {
+//   //   updateFields.image_url = fileName;
+//   // }
+//   try {
+//     await sql`
+//         UPDATE pesanan
+//         SET customer_id = ${customerId}, barang=${barang}, harga = ${harga}, jumlah = ${jumlah}, keterangan = ${keterangan}
+//         WHERE id = ${id}
+//       `;
+//   } catch (error) {
+//     return { message: 'Database Error: Failed to Update Pesanan.' };
+//   }
 
-  revalidatePath('/dashboard/pesanan');
-  redirect('/dashboard/pesanan');
-}
+//   revalidatePath('/dashboard/pesanan');
+//   redirect('/dashboard/pesanan');
+// }
 
-export async function deletePesanan(id: string) {
-   throw new Error('Failed to Delete Pesanan');
-  try {
-    await sql`DELETE FROM pesanan WHERE id = ${id}`;
-    revalidatePath('/dashboard/pesanan');
-    return { message: 'Deleted Pesanan.' };
-  } catch (error) {
-    return { message: 'Database Error: Failed to Delete Pesanan.' };
-  }
-}
+// export async function deletePesanan(id: string) {
+//    throw new Error('Failed to Delete Pesanan');
+//   try {
+//     await sql`DELETE FROM pesanan WHERE id = ${id}`;
+//     revalidatePath('/dashboard/pesanan');
+//     return { message: 'Deleted Pesanan.' };
+//   } catch (error) {
+//     return { message: 'Database Error: Failed to Delete Pesanan.' };
+//   }
+// }

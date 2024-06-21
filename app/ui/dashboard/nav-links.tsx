@@ -3,6 +3,7 @@ import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  ShoppingCartIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,18 +16,22 @@ const links = [
   {
     name: 'Home',
     href: '/dashboard',
+    icon: HomeIcon, 
   },
   {
     name: 'Customer',
     href: '/dashboard/customer',
+    icon: UserGroupIcon,
   },
   {
     name: 'Invoices',
     href: '/dashboard/invoices',
+    icon: DocumentDuplicateIcon,
   },
   {
     name: 'Produk',
     href: '/dashboard/produk',
+    icon: ShoppingCartIcon,
   },
   // {
   //   name: 'Pesanan',
